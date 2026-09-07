@@ -1,0 +1,72 @@
+# Declarative routing policy.
+# This is configuration, not a programming language (spec §8).
+# When a decision needs logic, it moves into a named Capability instead.
+
+# --- MCP ---------------------------------------------------------------
+# Routed from transport metadata alone. No body parsing, no model.
+[[route]]
+name = "mcp-tool"
+[route.when]
+transport = "mcp"
+method    = "tools/call"
+[route.do]
+invoke = "mcp.dispatch"
+
+# --- Blobs -------------------------------------------------------------
+[[route]]
+name = "pdf"
+[route.when]
+interaction  = "blob"
+content_type = "application/pdf"
+[route.do]
+invoke = "document.inspect"
+
+[[route]]
+name = "blob-any"
+[route.when]
+interaction = "blob"
+[route.do]
+invoke = "document.inspect"
+
+# --- Events / streams --------------------------------------------------
+[[route]]
+name = "echo"
+[route.when]
+interaction = "event"
+route_hint  = "echo"
+[route.do]
+invoke = "echo"
+
+[[route]]
+name = "stream-echo"
+[route.when]
+interaction = "stream"
+[route.do]
+invoke = "echo"
+
+# A CALL over HTTP: the sender is waiting. Answer deterministically.
+[[route]]
+name = "http-call"
+[route.when]
+transport   = "http"
+interaction = "call"
+[route.do]
+invoke = "echo"
+
+[[route]]
+name = "event-default"
+[route.when]
+interaction = "event"
+[route.do]
+invoke = "echo"
+
+# --- Fallback ----------------------------------------------------------
+# Nothing deterministic claimed this. Hand the ambiguity to a declared
+# Talent. With talent disabled this defers rather than failing: unknown
+# input is allowed to take time (spec §10).
+[[route]]
+name = "unknown-semantic"
+[route.when]
+known = false
+[route.do]
+ask_talent = "ingress.interpreter"

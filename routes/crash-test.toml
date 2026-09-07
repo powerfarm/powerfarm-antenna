@@ -1,0 +1,15 @@
+# Routes used by the crash-recovery test: an event must produce a real,
+# external, once-only effect so "avoid duplicate external effect" is testable.
+[[route]]
+name = "deliver-out"
+[route.when]
+interaction = "event"
+[route.do]
+invoke = "delivery.create"
+
+[[route]]
+name = "unknown-semantic"
+[route.when]
+known = false
+[route.do]
+ask_talent = "ingress.interpreter"

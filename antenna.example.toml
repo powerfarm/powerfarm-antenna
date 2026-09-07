@@ -1,0 +1,64 @@
+# Antenna — LAB 8GB
+# Behind cloudflared tunnel 2b7bc384 (antenna.minilab.work -> 127.0.0.1:8799).
+
+[server]
+bind            = ""
+max_event_bytes = ""
+max_blob_bytes  = ""
+call_timeout_ms = 30000
+inspect_token   = ""
+
+[storage]
+data_dir = ""
+
+[delivery]
+max_attempts       = 5
+base_backoff_ms    = 500
+worker_interval_ms = 2000
+http_timeout_ms    = 15000
+
+# Authority boundary (spec §12). Outward effects cross this before they happen.
+# return-path and capability destinations are inherently authorized: they answer
+# an origin Antenna already accepted. Everything else must be named here.
+[gatekeeper]
+allow_destinations = []
+
+# Intelligence is a capability, never a dependency. Antenna boots without it.
+[talent]
+enabled    = false
+endpoint   = ""
+model      = ""
+timeout_ms = 60000
+
+# A verified Cloudflare edge may enter only through /internal/github and must
+# authenticate a timestamped digest-bound handoff. Census stays disabled until
+# the dedicated least-privilege GitHub App key is installed.
+[github]
+organization          = ""
+handoff_secret        = ""
+handoff_max_age_secs  = 300
+app_id                = 4822751
+installation_id       = 158881753
+private_key_path      = ""
+census_enabled        = true
+census_interval_secs  = 3600
+api_base              = ""
+
+# The writer is implemented but deliberately disabled until a dedicated
+# service-account credential is shared onto the canonical Live Blueprint.
+[google]
+enabled                  = true
+spreadsheet_id           = ""
+credentials_path         = ""
+record_id_header         = ""
+sheet_name               = ""
+projection_interval_secs = 60
+
+[google.field_map]
+observed_repository_name = ""
+machine_source           = ""
+observed_state           = ""
+drift_treatment          = ""
+membership_treatment     = ""
+last_observed_at         = ""
+attention_state          = ""

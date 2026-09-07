@@ -1,0 +1,26 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "powerfarm-github-ingress",
+  "account_id": "1f43a14fe5bb62b97e7262c5b6b7c476",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-09-03",
+  "compatibility_flags": ["nodejs_compat"],
+  "routes": [
+    {
+      "pattern": "ingress.minilab.work",
+      "custom_domain": true
+    }
+  ],
+  "vars": {
+    "UPSTREAM_URL": "https://antenna.minilab.work/internal/github",
+    "MAX_BODY_BYTES": "1048576"
+  },
+  "observability": {
+    "enabled": true,
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+      "invocation_logs": true
+    }
+  }
+}

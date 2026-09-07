@@ -1,0 +1,47 @@
+# canônico 2026-07-02 — túnel principal da 8GB servindo as UIs de Dan.
+# Hostnames aposentados nesta reescrita (religar só com ordem explícita):
+# tv.logline.world, lab8gb-runtime, mistral (inferência pública!), passport,
+# ingress, work-8gb (drift porta 3000).
+tunnel: 2b7bc384-08ec-4fda-9c54-cd509ac3c578
+credentials-file: /etc/cloudflared/2b7bc384-08ec-4fda-9c54-cd509ac3c578.json
+ingress:
+  - hostname: places.minilab.work
+    path: /party/*
+    service: http://127.0.0.1:1999
+  - hostname: places.minilab.work
+    service: http://127.0.0.1:4176
+  # Carbon Lab control plane. Apontava para 8790, que é do cairn-mcp: o MCP
+  # respondia 403 JSON-RPC "Invalid Host" e o BFF traduzia isso como conta sem
+  # vínculo. O control plane tinha subido no mesmo 8790, mas em IPv6, enquanto o
+  # cairn ficou com 127.0.0.1 — o túnel, que vai por IPv4, sempre caía no cairn.
+  # A API vem antes da UI: cloudflared casa a primeira regra, e uma regra sem
+  # path pega tudo. Invertido, /api cairia no vite preview, que serve estatico.
+  - hostname: control.minilab.work
+    path: /api/lab-dashboard/*
+    service: http://127.0.0.1:8789
+  - hostname: control.minilab.work
+    service: http://127.0.0.1:4173
+  - hostname: cp.minilab.work
+    service: http://127.0.0.1:8080
+  - hostname: 8gb-workflow-engine.minilab.work
+    service: http://127.0.0.1:3320
+  - hostname: cairn-mcp.minilab.work
+    service: http://127.0.0.1:8790
+  - hostname: cairn-admin.minilab.work
+    service: http://127.0.0.1:8791
+  - hostname: lab512-cockpit.minilab.work
+    service: http://127.0.0.1:9081
+  - hostname: lab512-runtime.minilab.work
+    service: http://127.0.0.1:8788
+  - hostname: inference.minilab.work
+    service: http://127.0.0.1:8787
+  # Antenna operator/inspection paths are not public. The only tunnel route
+  # into the service is the exact timestamped, digest-bound HMAC handoff used
+  # by the verified GitHub edge receiver. Every other path is denied here,
+  # before the application's inspection-token check.
+  - hostname: antenna.minilab.work
+    path: ^/internal/github$
+    service: http://127.0.0.1:8799
+  - hostname: antenna.minilab.work
+    service: http_status:403
+  - service: http_status:404

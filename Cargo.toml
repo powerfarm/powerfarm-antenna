@@ -1,0 +1,44 @@
+[package]
+name = "antenna"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.85"
+description = "Antenna — a thin, durable ingress/egress membrane."
+license = "MIT"
+
+[dependencies]
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "signal", "sync", "time", "fs", "io-util"] }
+axum = { version = "0.8", features = ["ws", "macros"] }
+tower = "0.5"
+tower-http = { version = "0.6", features = ["trace", "limit", "timeout"] }
+rusqlite = { version = "0.32", features = ["bundled"] }
+object_store = { version = "0.11", default-features = false }
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["preserve_order"] }
+toml = "0.8"
+uuid = { version = "1", features = ["v4", "v7"] }
+blake3 = "1"
+sha2 = "0.10"
+hmac = "0.12"
+hex = "0.4"
+jsonwebtoken = "9"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+async-trait = "0.1"
+anyhow = "1"
+futures-util = "0.3"
+bytes = "1"
+chrono = { version = "0.4", default-features = false, features = ["clock", "std", "serde"] }
+
+[dev-dependencies]
+tokio = { version = "1", features = ["full"] }
+# Test client only. Antenna itself does not connect outward over WebSocket yet,
+# so this stays out of [dependencies] until it actually needs to.
+tokio-tungstenite = "0.29"
+
+[profile.release]
+opt-level = 2
+lto = "thin"
+codegen-units = 4
+strip = "debuginfo"

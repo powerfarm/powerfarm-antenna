@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>work.minilab.antenna</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/danvoulez/lab/antenna/bin/antenna</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/danvoulez/lab/antenna</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>ANTENNA_CONFIG</key>
+        <string>/Users/danvoulez/lab/antenna/antenna.toml</string>
+        <key>ANTENNA_ROUTES</key>
+        <string>/Users/danvoulez/lab/antenna/routes/default.toml</string>
+        <key>ANTENNA_LOG</key>
+        <string>antenna=info,tower_http=warn,warn</string>
+    </dict>
+
+    <!-- Runs as danvoulez, not root. Antenna needs no privilege: it binds a
+         high loopback port and writes only under its own data dir. -->
+    <key>UserName</key>
+    <string>danvoulez</string>
+
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <dict>
+        <key>SuccessfulExit</key>
+        <false/>
+    </dict>
+    <key>ThrottleInterval</key>
+    <integer>10</integer>
+
+    <key>StandardOutPath</key>
+    <string>/Users/danvoulez/lab/antenna/logs/antenna.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/danvoulez/lab/antenna/logs/antenna.err</string>
+
+    <key>ProcessType</key>
+    <string>Background</string>
+</dict>
+</plist>
