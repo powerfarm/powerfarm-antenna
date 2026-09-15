@@ -183,11 +183,6 @@ async fn process_inner(app: &App, receipt_id: &str, meta: RouteMeta) -> Result<O
             Ok(Outcome::Failed { error: err })
         }
         Ok(out) => {
-            let result_json = serde_json::to_string(&out.result)?;
-            let rid = run_id.clone();
-            app.db.call(move |c| run::complete(c, &rid, &result_json)).await?;
-            set(app, receipt_id, Status::Routed).await;
-
             // Every outward effect becomes a Delivery — including the answer
             // owed to the origin. Nothing here sends anything itself.
             let mut requests = out.deliveries;
@@ -211,21 +206,24 @@ async fn process_inner(app: &App, receipt_id: &str, meta: RouteMeta) -> Result<O
                 ));
             }
 
-            for req in requests {
-                let cfg = app.cfg.clone();
-                let (rid, run, cor, st) = (
-                    receipt_id.to_string(), run_id.clone(),
-                    r.correlation_id.clone(), stamp.clone(),
-                );
-                let req2 = req.clone();
-                app.db
-                    .call(move |c| {
+            let cfg = app.cfg.clone();
+            let (rid, run, cor, st) = (
+                receipt_id.to_string(), run_id.clone(),
+                r.correlation_id.clone(), stamp.clone(),
+            );
+            let result_json = serde_json::to_string(&out.result)?;
+            app.db.call(move |c| {
+                let tx = c.transaction()?;
+                for req in requests {
                         delivery::enqueue(
-                            c, &cfg, Some(&rid), Some(&run), cor.as_deref(), &req2, Some(&st),
-                        )
-                    })
-                    .await?;
-            }
+                            &tx, &cfg, Some(&rid), Some(&run), cor.as_deref(), &req, Some(&st),
+                        )?;
+                }
+                run::complete(&tx, &run, &result_json)?;
+                receipt::set_status(&tx, &rid, Status::Routed)?;
+                tx.commit()?;
+                Ok(())
+            }).await?;
             // Wake the outbox now rather than at the next tick, so a CALL
             // is not paying the poll interval as latency.
             app.outbox_notify.notify_waiters();

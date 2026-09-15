@@ -9,13 +9,13 @@ async fn rpc(base: &str, body: serde_json::Value) -> serde_json::Value {
 }
 
 #[tokio::test]
-async fn initialize_advertises_the_modern_protocol() {
+async fn initialize_is_the_legacy_handshake() {
     let h = common::start("mcp-init", &[]).await;
     let r = rpc(&h.base, json!({
         "jsonrpc":"2.0","id":1,"method":"initialize",
         "params":{"protocolVersion":"2026-07-28"}
     })).await;
-    assert_eq!(r["result"]["protocolVersion"], antenna::ingress::mcp::PROTOCOL_VERSION);
+    assert_eq!(r["result"]["protocolVersion"], antenna::ingress::mcp::LEGACY_VERSION);
     assert_eq!(r["result"]["serverInfo"]["name"], "antenna");
 }
 
@@ -68,14 +68,14 @@ async fn tools_call_creates_a_receipt_and_runs_through_the_shared_core() {
 
 #[tokio::test]
 async fn routing_metadata_alone_is_enough() {
-    // No `method` in the body at all — the headers carry it (spec §16).
+    // The metadata must agree with the persisted request on recovery.
     let h = common::start("mcp-headers", &[]).await;
     let r: serde_json::Value = common::client()
         .post(format!("{}/mcp", h.base))
         .header("Mcp-Method", "tools/call")
         .header("Mcp-Name", "query_receipts")
         .header("MCP-Protocol-Version", "2026-07-28")
-        .json(&json!({"jsonrpc":"2.0","id":4,"params":{"name":"query_receipts","arguments":{"limit":5}}}))
+        .json(&json!({"jsonrpc":"2.0","id":4,"method":"tools/call","params":{"name":"query_receipts","arguments":{"limit":5},"_meta":{"io.modelcontextprotocol/protocolVersion":"2026-07-28"}}}))
         .send().await.unwrap().json().await.unwrap();
 
     assert_eq!(r["result"]["isError"], false);

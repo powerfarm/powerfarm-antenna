@@ -22,6 +22,8 @@ use serde_json::{json, Value};
 use std::net::SocketAddr;
 
 pub const PROTOCOL_VERSION: &str = "2026-07-28";
+pub const LEGACY_VERSION: &str = "2025-11-25";
+const VERSION_META: &str = "io.modelcontextprotocol/protocolVersion";
 
 fn err(id: Value, code: i64, message: &str) -> Value {
     json!({ "jsonrpc": "2.0", "id": id, "error": { "code": code, "message": message } })
@@ -29,6 +31,16 @@ fn err(id: Value, code: i64, message: &str) -> Value {
 
 fn ok(id: Value, result: Value) -> Value {
     json!({ "jsonrpc": "2.0", "id": id, "result": result })
+}
+
+fn complete(id: Value, mut result: Value, modern: bool) -> Value {
+    if modern {
+        result["resultType"] = json!("complete");
+        result["_meta"]["io.modelcontextprotocol/serverInfo"] = json!({
+            "name": "antenna", "version": env!("CARGO_PKG_VERSION")
+        });
+    }
+    ok(id, result)
 }
 
 /// GET /mcp — stateless: there is no server-initiated stream to attach to.
@@ -64,15 +76,52 @@ pub async fn post(
     }
 
     let id = req.get("id").cloned().unwrap_or(Value::Null);
-    // Header first, body second — transport metadata is cheaper and is
-    // exactly what the router wants.
-    let method = header(&headers, "mcp-method")
-        .or_else(|| req.get("method").and_then(|m| m.as_str()).map(String::from))
-        .unwrap_or_default();
+    let Some(method) = req.get("method").and_then(Value::as_str) else {
+        return (StatusCode::BAD_REQUEST, Json(err(id, -32600, "method is required"))).into_response();
+    };
+    if req.get("jsonrpc").and_then(Value::as_str) != Some("2.0")
+        || req.get("params").is_some_and(|v| !v.is_object())
+        || req.get("id").is_some_and(|v| !(v.is_string() || v.is_i64() || v.is_u64()))
+    {
+        return (StatusCode::BAD_REQUEST, Json(err(Value::Null, -32600, "invalid request"))).into_response();
+    }
+    // A notification cannot invoke a tool or create accepted work.
+    if req.get("id").is_none() {
+        return StatusCode::ACCEPTED.into_response();
+    }
+    if req.pointer("/params/_meta").is_some_and(|v| !v.is_object()) {
+        return (StatusCode::BAD_REQUEST, Json(err(id, -32602, "invalid metadata"))).into_response();
+    }
+    let meta_version = req.pointer("/params/_meta").and_then(|v| v.get(VERSION_META));
+    let transport_version = header(&headers, "mcp-protocol-version");
+    let version = meta_version.and_then(Value::as_str).or(transport_version.as_deref());
+    let modern = version == Some(PROTOCOL_VERSION);
+    if meta_version.is_some_and(|v| !v.is_string())
+        || version.is_some_and(|v| v != PROTOCOL_VERSION && v != LEGACY_VERSION)
+    {
+        return (StatusCode::BAD_REQUEST, Json(err(id, -32022, "unsupported protocol version"))).into_response();
+    }
+    // The July protocol rules are shared with the supplied Labor transport:
+    // per-request metadata and matching method/name headers, no initialize.
+    if modern && meta_version.and_then(Value::as_str) != Some(PROTOCOL_VERSION) {
+        return (StatusCode::BAD_REQUEST, Json(err(id, -32602, "per-request protocol metadata required"))).into_response();
+    }
+    let mut expected = vec![("mcp-method", Some(method))];
+    if modern { expected.push(("mcp-protocol-version", Some(PROTOCOL_VERSION))); }
+    if method == "tools/call" {
+        expected.push(("mcp-name", req.pointer("/params/name").and_then(Value::as_str)));
+    }
+    for (name, expected) in expected {
+        let actual = header(&headers, name);
+        if (modern || actual.is_some()) && (actual.is_none() || actual.as_deref() != expected) {
+            return (StatusCode::BAD_REQUEST, Json(err(id, -32020, &format!("missing or mismatched header: {name}")))).into_response();
+        }
+    }
+    let method = method.to_string();
 
     match method.as_str() {
-        "initialize" => (StatusCode::OK, Json(ok(id, json!({
-            "protocolVersion": PROTOCOL_VERSION,
+        "initialize" if !modern => (StatusCode::OK, Json(ok(id, json!({
+            "protocolVersion": LEGACY_VERSION,
             "capabilities": { "tools": { "listChanged": false } },
             "serverInfo": {
                 "name": "antenna",
@@ -84,10 +133,17 @@ none of them execute arbitrary code. Payloads you pass in are recorded as receiv
 not asserted as true."
         })))).into_response(),
 
+        "server/discover" if modern => (StatusCode::OK, Json(complete(id, json!({
+            "supportedVersions": [PROTOCOL_VERSION, LEGACY_VERSION],
+            "capabilities": { "tools": {} },
+            "ttlMs": 300000, "cacheScope": "public",
+            "instructions": "Tools invoke bounded Antenna operations; calls require the operator credential when configured."
+        }), true))).into_response(),
+
         // Notifications carry no id and get no body.
         m if m.starts_with("notifications/") => StatusCode::ACCEPTED.into_response(),
 
-        "ping" => (StatusCode::OK, Json(ok(id, json!({})))).into_response(),
+        "ping" => (StatusCode::OK, Json(complete(id, json!({}), modern))).into_response(),
 
         "tools/list" => {
             let tools: Vec<Value> = crate::capability::builtins::MCP_TOOLS
@@ -102,10 +158,18 @@ not asserted as true."
                     }))
                 })
                 .collect();
-            (StatusCode::OK, Json(ok(id, json!({ "tools": tools })))).into_response()
+            (StatusCode::OK, Json(complete(id, json!({ "tools": tools }), modern))).into_response()
         }
 
-        "tools/call" => tools_call(app, peer, headers, body, req, id).await,
+        "tools/call" => {
+            if !crate::ingress::inspection_allowed(&app, &headers) {
+                return (StatusCode::UNAUTHORIZED, Json(err(id, -32001, "operator authentication required"))).into_response();
+            }
+            if req.pointer("/params/arguments").is_some_and(|v| !v.is_object()) {
+                return (StatusCode::BAD_REQUEST, Json(err(id, -32602, "arguments must be an object"))).into_response();
+            }
+            tools_call(app, peer, headers, body, req, id, modern).await
+        },
 
         other => (StatusCode::OK,
             Json(err(id, -32601, &format!("method not found: {other}")))).into_response(),
@@ -119,6 +183,7 @@ async fn tools_call(
     body: Bytes,
     req: Value,
     id: Value,
+    modern: bool,
 ) -> axum::response::Response {
     let tool = header(&headers, "mcp-name")
         .or_else(|| req.pointer("/params/name").and_then(|v| v.as_str()).map(String::from));
@@ -176,26 +241,32 @@ async fn tools_call(
     let rx = app.returns.register_once(&key);
 
     let meta = RouteMeta { method: Some("tools/call".into()), tool: Some(tool_name.clone()) };
-    let outcome = journey::process(&app, &accepted.receipt_id, meta).await;
-
+    let worker_app = app.clone();
+    let rid = accepted.receipt_id.clone();
+    let task = tokio::spawn(async move { journey::process(&worker_app, &rid, meta).await });
     let timeout = std::time::Duration::from_millis(app.cfg.server.call_timeout_ms);
-    let answer = tokio::time::timeout(timeout, rx).await;
+    let answer = tokio::time::timeout(timeout, async {
+        let outcome = task.await?;
+        let envelope = if matches!(outcome, journey::Outcome::Completed { .. }) {
+            rx.await.ok()
+        } else { None };
+        Ok::<_, tokio::task::JoinError>((outcome, envelope))
+    }).await;
     app.returns.forget(&key);
 
-    let structured = match answer {
-        Ok(Ok(envelope)) => envelope.get("result").cloned().unwrap_or(envelope),
-        _ => outcome.to_json(&accepted.receipt_id),
+    let (structured, is_error) = match answer {
+        Ok(Ok((outcome, envelope))) => (
+            envelope.map(|v| v.get("result").cloned().unwrap_or(v))
+                .unwrap_or_else(|| outcome.to_json(&accepted.receipt_id)),
+            matches!(outcome, journey::Outcome::Failed { .. } | journey::Outcome::Quarantined { .. }),
+        ),
+        _ => (json!({"status":"accepted", "receipt_id": accepted.receipt_id}), false),
     };
-
-    let is_error = matches!(
-        outcome,
-        journey::Outcome::Failed { .. } | journey::Outcome::Quarantined { .. }
-    );
 
     let text = serde_json::to_string_pretty(&structured)
         .unwrap_or_else(|_| "{}".to_string());
 
-    (StatusCode::OK, Json(ok(id, json!({
+    (StatusCode::OK, Json(complete(id, json!({
         "content": [ { "type": "text", "text": text } ],
         "structuredContent": structured,
         "isError": is_error,
@@ -203,5 +274,5 @@ async fn tools_call(
             "antenna/receipt_id": accepted.receipt_id,
             "antenna/correlation_id": accepted.correlation_id
         }
-    })))).into_response()
+    }), modern))).into_response()
 }

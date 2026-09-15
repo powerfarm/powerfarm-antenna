@@ -271,6 +271,14 @@ pub async fn submit(
     req: Request,
 ) -> impl IntoResponse {
     let content_type = header(&headers, "content-type").unwrap_or_default().to_lowercase();
+    // Explicit MCP transport metadata takes precedence over payload media type.
+    if headers.contains_key("mcp-method") || headers.contains_key("mcp-protocol-version") {
+        let body = match axum::body::to_bytes(req.into_body(), app.cfg.server.max_event_bytes).await {
+            Ok(body) => body,
+            Err(_) => return StatusCode::PAYLOAD_TOO_LARGE.into_response(),
+        };
+        return super::mcp::post(State(app), ConnectInfo(peer), headers, body).await.into_response();
+    }
     let wants_answer = q.wait != Some(0);
     let trace_id = trace_id_from(&headers);
     let correlation_id = header(&headers, "antenna-correlation-id")
@@ -370,7 +378,7 @@ pub async fn submit(
             raw_digest: Some(digest.clone()),
             interaction: "blob".into(),
             correlation_id: Some(correlation_id.clone()),
-            return_path: Some(format!("active-response:{correlation_id}")),
+            return_path: wants_answer.then(|| format!("active-response:{correlation_id}")),
             route_hint: header(&headers, "antenna-route-hint"),
             ..Default::default()
         };
@@ -428,6 +436,13 @@ pub async fn submit(
             }
         };
 
+        // Preserve compatibility with clients that send a JSON-RPC envelope
+        // without MCP routing headers. Ordinary JSON remains ordinary ingress.
+        if serde_json::from_slice::<serde_json::Value>(&body).ok()
+            .is_some_and(|v| v.get("jsonrpc").is_some())
+        {
+            return super::mcp::post(State(app), ConnectInfo(peer), headers, body).await.into_response();
+        }
         let digest = blake3::hash(&body).to_hex().to_string();
 
         let n = NewReceipt {
@@ -496,6 +511,24 @@ pub async fn submit(
 }
 
 // --------------------------------------------------------- landing ----
+pub async fn root_get(
+    State(app): State<App>,
+    ConnectInfo(peer): ConnectInfo<SocketAddr>,
+    headers: HeaderMap,
+    ws: Result<axum::extract::ws::WebSocketUpgrade, axum::extract::ws::rejection::WebSocketUpgradeRejection>,
+) -> axum::response::Response {
+    if headers.contains_key("upgrade") {
+        return match ws {
+            Ok(ws) => super::websocket::upgrade(State(app), ConnectInfo(peer), headers, ws).await.into_response(),
+            Err(e) => e.into_response(),
+        };
+    }
+    if headers.contains_key("mcp-protocol-version") {
+        return super::mcp::get_not_allowed().await.into_response();
+    }
+    landing().await.into_response()
+}
+
 /// Human front door. What Antenna is and how to send to it.
 pub async fn landing() -> impl IntoResponse {
     let html = r##"<!DOCTYPE html>
