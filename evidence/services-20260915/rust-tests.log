@@ -1,0 +1,145 @@
+   Compiling antenna v0.1.0 (/Users/ubl-ops/platform-four/antenna)
+    Finished `test` profile [unoptimized] target(s) in 42.81s
+     Running unittests src/lib.rs (target/debug/deps/antenna-024554c69454a16e)
+
+running 11 tests
+test gatekeeper::tests::shell_shaped_destinations_are_refused ... ok
+test gatekeeper::tests::return_paths_are_inherently_authorized ... ok
+test gatekeeper::tests::userinfo_cannot_disguise_an_unlisted_destination ... ok
+test gatekeeper::tests::empty_policy_denies_all_external ... ok
+test gatekeeper::tests::unlisted_hosts_are_denied ... ok
+test gatekeeper::tests::listed_hosts_are_granted ... ok
+test gatekeeper::tests::wildcards_match_subdomains_only_under_the_suffix ... ok
+test sheet::url_tests::sheet_value_range_is_one_encoded_path_segment ... ok
+test sheet::url_tests::repository_append_leaves_target_column_unset ... ok
+test ingress::github::tests::stale_handoff_is_rejected ... ok
+test ingress::github::tests::valid_and_tampered_handoffs_are_distinguished ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+     Running unittests src/main.rs (target/debug/deps/antenna-0b2d62c72eb9aff4)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/census-import.rs (target/debug/deps/census_import-4150b199cdb3b97f)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/blob.rs (target/debug/deps/blob-baebbe6ad8b7dd12)
+
+running 3 tests
+test oversized_blobs_are_refused_before_they_are_preserved ... ok
+test blob_goes_to_the_bucket_and_the_receipt_only_references_it ... ok
+test identical_bytes_collapse_to_one_object ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.08s
+
+     Running tests/census.rs (target/debug/deps/census-11ea3204962633a4)
+
+running 6 tests
+test census_fetches_every_page_and_proves_completeness ... ok
+test appearing_and_missing_repositories_are_observations_not_inferred_deletions ... ok
+test failed_census_leaves_prior_projection_intact ... ok
+test repository_rename_preserves_identity_and_archive_round_trips ... ok
+test migration_preserves_existing_receipts ... ok
+test unchanged_complete_census_does_not_rewrite_sheet_projection ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
+
+     Running tests/crash_recovery.rs (target/debug/deps/crash_recovery-5aeaa39f88e6f199)
+
+running 3 tests
+test a_receipt_committed_but_never_routed_is_routed_on_boot ... ok
+test an_interrupted_delivery_is_marked_uncertain_not_forgotten ... ok
+test accepted_work_survives_sigkill_and_is_delivered_exactly_once ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.39s
+
+     Running tests/github_observation.rs (target/debug/deps/github_observation-2d94c91ebc08453d)
+
+running 5 tests
+test oversized_internal_request_is_rejected_without_receipt ... ok
+test invalid_tampered_and_missing_identity_are_rejected ... ok
+test duplicate_delivery_has_two_receipts_but_one_observation ... ok
+test valid_handoff_is_durable_before_acknowledgement ... ok
+test unknown_event_and_action_are_retained_as_unknown ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.08s
+
+     Running tests/mcp.rs (target/debug/deps/mcp-d00250ee908a0d7b)
+
+running 7 tests
+test tools_are_bounded_actions ... ok
+test batching_is_rejected ... ok
+test initialize_is_the_legacy_handshake ... ok
+test there_is_no_server_initiated_stream ... ok
+test unknown_tools_are_refused_without_committing_work ... ok
+test routing_metadata_alone_is_enough ... ok
+test tools_call_creates_a_receipt_and_runs_through_the_shared_core ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s
+
+     Running tests/root.rs (target/debug/deps/root-cac3e51750f7244d)
+
+running 6 tests
+test mismatched_headers_and_notifications_never_execute_tools ... ok
+test failed_completion_rolls_back_the_entire_outbox ... ok
+test july_mcp_discovery_and_execution_use_root ... ok
+test root_websocket_executes_through_same_corridor ... ok
+test protected_tools_cannot_bypass_inspection_auth ... ok
+test root_upload_uses_blob_limit_and_async_has_no_orphan_delivery ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.14s
+
+     Running tests/round_trip.rs (target/debug/deps/round_trip-e1d3c418b0f60710)
+
+running 5 tests
+test fire_and_forget_is_durable_before_it_is_acknowledged ... ok
+test raw_material_stays_byte_identical ... ok
+test ingress_call_completes_through_the_outbox ... ok
+test a_denied_delivery_is_never_attempted ... ok
+test the_inspection_surface_is_closed_when_a_token_is_set ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 10.08s
+
+     Running tests/services.rs (target/debug/deps/services-8d86e3f4cd43192f)
+
+running 5 tests
+test forged_proof_and_wrong_credentials_cannot_invoke_contracts ... ok
+test streaming_service_delivers_the_graph_result_as_sse ... ok
+test accepted_contract_executes_the_supplied_continuity_graph ... ok
+test websocket_contract_executes_and_revocation_closes_the_next_frame ... ok
+test mcp_invokes_and_inspects_a_contract_with_the_client_credential ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.50s
+
+     Running tests/sheet.rs (target/debug/deps/sheet-3c17584cf302e91a)
+
+running 5 tests
+test stable_record_id_resolution_is_not_row_memory ... ok
+test duplicate_record_ids_are_rejected ... ok
+test target_and_constitutional_fields_are_forbidden ... ok
+test repeated_reconciliation_without_new_evidence_is_idempotent ... ok
+test google_failure_leaves_projection_safely_pending ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+     Running tests/websocket.rs (target/debug/deps/websocket-2970f7bb08bc285d)
+
+running 3 tests
+test transport_noise_creates_no_receipts ... ok
+test message_is_receipted_and_answered_on_the_same_socket ... ok
+test many_messages_stay_correlated ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+
+   Doc-tests antenna
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

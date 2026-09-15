@@ -1,0 +1,90 @@
+
+> test
+> node --test tests/*.test.mjs && npm run migrations:check && npm run brand:check
+
+✔ compiler derives CSS from v0.5.1 JSON tokens (29.348708ms)
+✔ build verifies deterministic outputs against the committed lock (260.599583ms)
+✔ guard rejects a copied canonical color outside brand (25.452334ms)
+✔ guard accepts semantic var references and unrelated words (16.915125ms)
+✔ guard rejects a copied canonical font family (8.405792ms)
+✔ guard rejects a byte-identical canonical SVG (11.961ms)
+✔ guard rejects a byte-identical canonical font file (14.803041ms)
+✔ guard rejects relative imports into brand internals (12.313708ms)
+✔ guard ignores nested framework build output (14.35725ms)
+✔ brand package exposes the admitted v0.5.1 source (13.048416ms)
+✔ generated brand output is excluded from source control (2.652292ms)
+✔ Platform UI reads and edits the same canonical hello-agentic draft (16.367916ms)
+✔ magic links preserve intent and only carry the opaque authorization id (3.500583ms)
+✔ unknown email and ordinary provider errors receive the same neutral response (0.681167ms)
+✔ HTTP 429 is classified without exposing provider text (0.135083ms)
+✔ full passkey sign-in ceremony maps success (0.128ms)
+✔ passkey failures classify cancellation and unavailable configuration (0.190667ms)
+✔ session inspection lists passkeys only for confirmed non-anonymous users (0.169875ms)
+✔ registration rechecks session eligibility before creating a passkey (0.234083ms)
+✔ callback and authorization routes are reconstructed locally (0.13075ms)
+✔ Identity is an independently buildable workspace consuming canonical UI (25.440708ms)
+✔ login host has one passwordless provider adapter and no production literals (6.106375ms)
+✔ callback exchanges the code then reconstructs only local routes (3.304ms)
+✔ Identity refreshes issuer cookies without adding a second access policy (1.279792ms)
+✔ identity bootstrap waits until passkey capability is resolved (1.445167ms)
+✔ email survives sign-up and passkey fallback transitions (2.235ms)
+✔ confirmed authentication offers passkey enrollment when requested (0.156166ms)
+✔ existing passkey authentication completes the identity flow (0.077333ms)
+✔ magic-link completion is neutral for sign-in and sign-up (0.095917ms)
+✔ rate limiting keeps the email and offers email recovery (0.06725ms)
+✔ unsupported or cancelled passkey falls back to the same email (0.080917ms)
+✔ passkey registration and explicit skip both complete (0.064041ms)
+✔ only email.changed may replace the stored email (0.099083ms)
+✔ unknown events are rejected explicitly (0.291209ms)
+✔ consent authenticates locally and renders issuer-owned details (7.07ms)
+✔ decision route accepts only authorization id and a typed decision (3.658917ms)
+✔ pending authorization prefers the query, then the sign-in cookie (0.829958ms)
+✔ pending authorization cookie is short-lived, httpOnly and first-party (1.202959ms)
+✔ sign-in keeps the OAuth request across hops that drop the query (9.261459ms)
+✔ identity-ui exposes one provider-neutral passwordless surface (14.071125ms)
+✔ consent surface delegates the authorization decision to its host (5.004917ms)
+✔ extracts the numeric migration version (0.753584ms)
+✔ accepts exact applied sources plus a unique forward migration (1.765417ms)
+✔ rejects an applied migration without its exact source (1.485541ms)
+✔ rejects two local files with the same version (0.161083ms)
+✔ rejects a ledger name that does not match its source filename (0.092125ms)
+✔ rejects duplicate versions in the committed ledger (0.0995ms)
+✔ migration source contains authority, one ADK table migration, and its advisor follow-up (3.135417ms)
+✔ Registry authority migration makes OAuth administration grant-bound (2.515875ms)
+✔ Gadget lineage migration resolves an exact authorized execution snapshot (2.427709ms)
+✔ ADK advisor follow-up changes no table topology (3.400958ms)
+✔ ADK runtime migration keeps durable state together and behind RLS (2.994875ms)
+✔ OAuth onboarding normalizes an exact confidential production client (1.213792ms)
+✔ OAuth onboarding rejects wildcard, insecure and unsupported inputs (0.376541ms)
+✔ public OAuth clients never receive a client authentication method (0.100792ms)
+✔ Registry consumes canonical brand package exports (7.47175ms)
+✔ legacy Registry brand copies are gone (1.449625ms)
+✔ Registry login starts its own PKCE client flow instead of rendering another login (9.609834ms)
+✔ Registry callback validates state, exchanges the code and establishes its own session (1.321333ms)
+✔ legacy Registry consent forwards only the opaque request to canonical Identity (2.377916ms)
+✔ OAuth client administration is gated twice and records only the provider reference (2.343167ms)
+✔ account and admin are separate authenticated projections (2.646959ms)
+✔ OAuth transaction binds state, PKCE and the exact Registry callback (1.867667ms)
+✔ Registry accepts only local post-login destinations (0.10125ms)
+✔ OAuth callback state comparison rejects missing and unequal values (0.12675ms)
+✔ code exchange uses Basic client authentication without leaking the secret into the body (16.469167ms)
+✔ ui-core imports brand and contains aliases, not brand literals (6.908959ms)
+ℹ tests 67
+ℹ suites 0
+ℹ pass 67
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 398.505417
+
+> migrations:check
+> node scripts/check-migration-parity.mjs
+
+MIGRATION PARITY: PASS · 8 applied · 9 local · 1 pending
+pending: 20260915083641_antenna_service_contracts.sql
+
+> brand:check
+> node scripts/check-brand.mjs
+
+BRAND GUARD: PASS · 57 files · 49 assets

@@ -112,7 +112,9 @@ async fn process_inner(app: &App, receipt_id: &str, meta: RouteMeta) -> Result<O
         .and_then(|v| v.get("trace_id").and_then(|s| s.as_str()).map(String::from))
         .unwrap_or_else(crate::ids::new_trace_id);
 
-    let (route_name, decision) = app.router.decide(&r, &meta);
+    let (route_name, decision) = if r.transport!="mcp" && crate::services::context(&r)?.is_some() {
+        (Some("contracted-service".into()),Decision::Invoke("service.invoke".into()))
+    } else {app.router.decide(&r, &meta)};
     let rid = receipt_id.to_string();
     let rn = route_name.clone();
     let dec = decision.clone();
@@ -157,9 +159,15 @@ async fn process_inner(app: &App, receipt_id: &str, meta: RouteMeta) -> Result<O
         let (rid, rn, cn, st) = (
             run_id.clone(), receipt_id.to_string(), capability_name.clone(), stamp.clone(),
         );
-        app.db
-            .call(move |c| run::create(c, &rid, &rn, &cn, None, Some(&st)))
-            .await?;
+        let service=crate::services::context(&r)?.is_some();
+        let claimed=app.db.call(move |c| {
+            let tx=c.transaction()?;
+            if service && tx.query_row("SELECT EXISTS(SELECT 1 FROM runs WHERE receipt_id=?1 AND status='running')",[&rn],|r|r.get::<_,bool>(0))? {return Ok(false);}
+            run::create(&tx,&rid,&rn,&cn,None,Some(&st))?;
+            tx.commit()?;
+            Ok(true)
+        }).await?;
+        if !claimed {return Ok(Outcome::Deferred{reason:"this receipt is already running".into()});}
     }
 
     let ctx = InvocationContext {
@@ -183,11 +191,6 @@ async fn process_inner(app: &App, receipt_id: &str, meta: RouteMeta) -> Result<O
             Ok(Outcome::Failed { error: err })
         }
         Ok(out) => {
-            let result_json = serde_json::to_string(&out.result)?;
-            let rid = run_id.clone();
-            app.db.call(move |c| run::complete(c, &rid, &result_json)).await?;
-            set(app, receipt_id, Status::Routed).await;
-
             // Every outward effect becomes a Delivery — including the answer
             // owed to the origin. Nothing here sends anything itself.
             let mut requests = out.deliveries;
@@ -211,21 +214,24 @@ async fn process_inner(app: &App, receipt_id: &str, meta: RouteMeta) -> Result<O
                 ));
             }
 
-            for req in requests {
-                let cfg = app.cfg.clone();
-                let (rid, run, cor, st) = (
-                    receipt_id.to_string(), run_id.clone(),
-                    r.correlation_id.clone(), stamp.clone(),
-                );
-                let req2 = req.clone();
-                app.db
-                    .call(move |c| {
+            let cfg = app.cfg.clone();
+            let (rid, run, cor, st) = (
+                receipt_id.to_string(), run_id.clone(),
+                r.correlation_id.clone(), stamp.clone(),
+            );
+            let result_json = serde_json::to_string(&out.result)?;
+            app.db.call(move |c| {
+                let tx = c.transaction()?;
+                for req in requests {
                         delivery::enqueue(
-                            c, &cfg, Some(&rid), Some(&run), cor.as_deref(), &req2, Some(&st),
-                        )
-                    })
-                    .await?;
-            }
+                            &tx, &cfg, Some(&rid), Some(&run), cor.as_deref(), &req, Some(&st),
+                        )?;
+                }
+                run::complete(&tx, &run, &result_json)?;
+                receipt::set_status(&tx, &rid, Status::Routed)?;
+                tx.commit()?;
+                Ok(())
+            }).await?;
             // Wake the outbox now rather than at the next tick, so a CALL
             // is not paying the poll interval as latency.
             app.outbox_notify.notify_waiters();
@@ -274,6 +280,9 @@ pub async fn recover(app: App) -> Result<()> {
     tracing::warn!(count = pending.len(), "resuming unfinished receipts");
 
     for r in pending {
+        if let Some(context)=crate::services::context(&r)? {
+            if app.services.authorize(&context).await.is_err() {continue;}
+        }
         let app = app.clone();
         tokio::spawn(async move {
             // Re-derive MCP routing metadata from the stored body, so a

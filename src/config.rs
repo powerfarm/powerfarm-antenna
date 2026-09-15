@@ -23,6 +23,8 @@ pub struct Config {
     pub github: Github,
     #[serde(default)]
     pub google: Google,
+    #[serde(default)]
+    pub services: crate::services::ServiceConfig,
 }
 
 #[derive(Debug, Clone, Deserialize)]
@@ -207,6 +209,7 @@ impl Default for Config {
             talent: Default::default(),
             github: Default::default(),
             google: Default::default(),
+            services: Default::default(),
         }
     }
 }

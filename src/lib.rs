@@ -19,6 +19,7 @@ pub mod returnpath;
 pub mod router;
 pub mod run;
 pub mod sheet;
+pub mod services;
 pub mod storage;
 pub mod telemetry;
 
@@ -49,8 +50,10 @@ pub fn build(cfg: Config, routes_path: &Path) -> Result<App> {
     caps.register(Arc::new(capability::builtins::ReceiptsQuery));
     caps.register(Arc::new(capability::builtins::McpDispatch));
     caps.register(Arc::new(capability::talent::IngressInterpreter));
+    caps.register(Arc::new(services::InvokeService));
 
     let http = reqwest::Client::builder()
+        .redirect(reqwest::redirect::Policy::none())
         .timeout(std::time::Duration::from_millis(cfg.delivery.http_timeout_ms))
         .user_agent(concat!("antenna/", env!("CARGO_PKG_VERSION")))
         .build()
@@ -65,6 +68,7 @@ pub fn build(cfg: Config, routes_path: &Path) -> Result<App> {
         returns: returnpath::ReturnPaths::new(),
         outbox_notify: tokio::sync::Notify::new(),
         http,
+        services: services::ServiceRegistry::default(),
     }))
 }
 
@@ -77,18 +81,18 @@ pub fn http_router(app: App) -> Router {
     // /blob streams to disk and enforces its own cap, so the buffering limit
     // layer must not apply to it. Everything else is bounded here.
     let bounded = Router::new()
-        .route("/", post(ingress::http::submit))
         .route("/ingress", post(ingress::http::ingress))
         .route("/internal/github", post(ingress::github::accept))
         .route("/mcp", post(ingress::mcp::post).get(ingress::mcp::get_not_allowed))
         .layer(RequestBodyLimitLayer::new(max_event));
 
     let streaming = Router::new()
+        .route("/", post(ingress::http::submit))
         .route("/blob", post(ingress::http::blob))
         .layer(axum::extract::DefaultBodyLimit::disable());
 
     let inspect = Router::new()
-        .route("/", get(ingress::http::landing))
+        .route("/", get(ingress::http::root_get))
         .route("/health", get(ingress::http::health))
         .route("/status", get(ingress::http::operational_status))
         .route("/receipts", get(ingress::http::list_receipts))
@@ -100,6 +104,7 @@ pub fn http_router(app: App) -> Router {
     bounded
         .merge(streaming)
         .merge(inspect)
+        .layer(axum::middleware::from_fn_with_state(app.clone(), services::admit))
         .layer(tower_http::trace::TraceLayer::new_for_http())
         .with_state(app)
 }

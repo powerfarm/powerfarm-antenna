@@ -1,0 +1,57 @@
+
+> powerfarm@0.1.0 test
+> node --test tests/*.test.mjs
+
+✔ engine is an app qualifier, not a kind (2.109625ms)
+✔ place contract requires machine, path and park_type (0.615292ms)
+✔ a well-formed place has no local violations (0.11225ms)
+✔ app v2 engine qualifier requires park tenant fields (0.865791ms)
+✔ deploy aliases resolve the four parks (0.317667ms)
+✔ person admission only needs slug and title (0.093042ms)
+✔ a saved credential round-trips and is stored 0600 (14.067958ms)
+✔ profiles are isolated from one another (14.48975ms)
+✔ clearing one profile leaves the others signed in (5.887291ms)
+✔ clearing everything removes the file (3.106625ms)
+✔ a missing or corrupt config falls back instead of crashing (6.74225ms)
+✔ profile precedence is flag over env over config (2.458333ms)
+✔ endpoints resolve profile over env over default, and derive the issuer (0.664542ms)
+✔ every loopback redirect is a literal 127.0.0.1 address (0.613375ms)
+✔ a full login round trip: authorize, callback, PKCE exchange, stored session (422.994708ms)
+✔ an expired access token is refreshed transparently (291.256667ms)
+✔ POWERFARM_TOKEN authenticates CI without touching the credential store (124.136541ms)
+✔ logout leaves the CLI genuinely signed out (375.563084ms)
+✔ doctor passes against a healthy issuer and fails against a broken one (395.06525ms)
+✔ the callback server returns the code when the state matches (39.169666ms)
+✔ a mismatched state is rejected and the code is never returned (8.633958ms)
+✔ an issuer error is surfaced with its description (2.928291ms)
+✔ a response with no code is refused even when the state is right (3.95325ms)
+✔ the callback server binds loopback only, and frees the port afterwards (52.7665ms)
+✔ binding falls through to the next port when the first is taken (0.730583ms)
+✔ paths other than /callback are 404 and do not resolve the wait (3.038ms)
+✔ the authorization request is a PKCE public-client request (2.191042ms)
+✔ a missing client id fails with an actionable message (0.527125ms)
+✔ the issuer must be HTTPS unless it is loopback (1.292958ms)
+✔ the code exchange authenticates with PKCE, never a client secret (30.687333ms)
+✔ a rejected exchange surfaces the issuer's own description (0.679542ms)
+✔ refresh sends the refresh grant with the client id (0.286167ms)
+✔ token expiry is stored a minute early so requests never race it (0.267375ms)
+✔ PKCE challenge matches the RFC 7636 appendix B test vector (2.785334ms)
+✔ verifier and state are 43-character base64url with 256 bits of entropy (0.595792ms)
+✔ safeEqual rejects mismatches without throwing on differing lengths (0.278583ms)
+✔ canonical JSON sorts keys and ignores insertion order (0.345709ms)
+✔ definition hash is stable across key order and sensitive to content (1.502541ms)
+✔ sha256Hex is hex and stable (0.124917ms)
+✔ every registered command exposes run() and help (49.871667ms)
+✔ an unknown command exits 2 and says so (0.424625ms)
+✔ bare invocation prints usage listing every command (0.756833ms)
+✔ --version prints a semver and does not load the auth stack (0.140542ms)
+✔ --help on a command prints that command's help without running it (0.181291ms)
+✔ global flags parse and unknown flags are refused (1.234209ms)
+ℹ tests 45
+ℹ suites 0
+ℹ pass 45
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1775.924208

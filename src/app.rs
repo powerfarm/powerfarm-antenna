@@ -22,6 +22,7 @@ pub struct AppInner {
     /// for the next poll tick.
     pub outbox_notify: Notify,
     pub http: reqwest::Client,
+    pub services: crate::services::ServiceRegistry,
 }
 
 #[derive(Clone)]

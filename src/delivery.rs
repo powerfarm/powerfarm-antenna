@@ -8,7 +8,7 @@ use crate::app::App;
 use crate::gatekeeper;
 use anyhow::Result;
 use rusqlite::{params, Connection, OptionalExtension, Row};
-use serde::Serialize;
+use serde::{Serialize, Deserialize};
 use serde_json::Value;
 
 #[derive(Debug, Clone, Serialize)]
@@ -58,7 +58,7 @@ fn from_row(r: &Row<'_>) -> rusqlite::Result<DeliveryRow> {
 }
 
 /// What a capability asks for. It does not get to say "send"; it says "deliver".
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DeliveryRequest {
     pub destination: String,
     pub payload: Value,
@@ -273,6 +273,23 @@ pub async fn worker(app: App) {
 
 #[tracing::instrument(skip_all, fields(delivery = %d.id, destination = %d.destination, attempt = d.attempt + 1))]
 async fn attempt(app: App, d: DeliveryRow) {
+    if let Some(receipt_id) = &d.receipt_id {
+        let rid = receipt_id.clone();
+        match app.db.call(move |c| crate::receipt::load(c,&rid)).await {
+            Ok(Some(receipt)) => {
+                if let Err(error) = crate::services::authorize_delivery(&app,&receipt,&d).await {
+                    let dd=d.clone(); let reason=error.to_string();
+                    let _=app.db.call(move |c| {finish_attempt(c,&dd,"denied",Some(&reason))?;settle(c,&dd,"denied",Some(&reason))}).await;
+                    return;
+                }
+            },
+            Ok(None) | Err(_) => {
+                let dd=d.clone();
+                let _=app.db.call(move |c| {finish_attempt(c,&dd,"denied",Some("receipt authority unavailable"))?;settle(c,&dd,"denied",Some("receipt authority unavailable"))}).await;
+                return;
+            }
+        }
+    }
     // Re-check authority at the moment of effect. Policy may have changed
     // since enqueue, and the check that matters is the one before the action.
     let authority = gatekeeper::authorize(&app.cfg, &d.destination);

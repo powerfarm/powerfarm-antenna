@@ -1,0 +1,63 @@
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n  \"capability\": \"mcp.dispatch\",\n  \"tool\": \"invoke_service\",\n  \"result\": {\n    \"receipt_id\": \"rcp_01a0a50c468274c396543175eeba1181\",\n    \"status\": \"routed\",\n    \"runs\": [\n      {\n        \"id\": \"run_01a0a50c46857c50a58b86bc570efdb6\",\n        \"receipt_id\": \"rcp_01a0a50c468274c396543175eeba1181\",\n        \"capability\": \"mcp.dispatch\",\n        \"status\": \"completed\",\n        \"output\": \"{\\\"capability\\\":\\\"mcp.dispatch\\\",\\\"tool\\\":\\\"invoke_service\\\",\\\"result\\\":{\\\"capability\\\":\\\"service.invoke\\\",\\\"contract_id\\\":\\\"a5a2849b-f76f-44b3-845f-ab5bd980e98b\\\",\\\"contract_sha256\\\":\\\"c2eece788d0cf50ff32876bd1747f9db7765fda1165f180f3ae6549eeff157ad\\\",\\\"definition_sha256\\\":\\\"15b27ae3c4a42a5ef6487722e0412073e7f0303c91ecd751990fc5428513fd11\\\",\\\"result\\\":{\\\"capability\\\":\\\"document.inspect\\\",\\\"observation\\\":{\\\"digest\\\":\\\"d4cf5f8ebdd69643cc7e5b26602dff7aa38436579cc9baaa793777850197b8a7\\\",\\\"size_bytes\\\":144,\\\"sniffed_content_type\\\":\\\"application/json\\\",\\\"declared_content_type\\\":\\\"application/json\\\",\\\"structure\\\":{\\\"kind\\\":\\\"json\\\",\\\"top_level\\\":[\\\"event\\\",\\\"task\\\",\\\"source\\\"]}}},\\\"outputs\\\":{\\\"preserve\\\":{\\\"capability\\\":\\\"object.store\\\",\\\"digest\\\":\\\"d4cf5f8ebdd69643cc7e5b26602dff7aa38436579cc9baaa793777850197b8a7\\\",\\\"size_bytes\\\":144,\\\"content_type\\\":\\\"application/json\\\"},\\\"inspect\\\":{\\\"capability\\\":\\\"document.inspect\\\",\\\"observation\\\":{\\\"digest\\\":\\\"d4cf5f8ebdd69643cc7e5b26602dff7aa38436579cc9baaa793777850197b8a7\\\",\\\"size_bytes\\\":144,\\\"sniffed_content_type\\\":\\\"application/json\\\",\\\"declared_content_type\\\":\\\"application/json\\\",\\\"structure\\\":{\\\"kind\\\":\\\"json\\\",\\\"top_level\\\":[\\\"event\\\",\\\"task\\\",\\\"source\\\"]}}}}}}\",\n        \"error\": null,\n        \"created_at\": \"2026-09-15T12:30:40.261675Z\",\n        \"completed_at\": \"2026-09-15T12:30:46.975300Z\"\n      }\n    ],\n    \"deliveries\": [\n      {\n        \"id\": \"dlv_01a0a50c60be7700abe18d7d2da1b45d\",\n        \"receipt_id\": \"rcp_01a0a50c468274c396543175eeba1181\",\n        \"run_id\": \"run_01a0a50c46857c50a58b86bc570efdb6\",\n        \"correlation_id\": \"cor_01a0a50c468274c39654316ae6a7e546\",\n        \"destination\": \"return-path:mcp:cor_01a0a50c468274c39654316ae6a7e546\",\n        \"transport\": \"return-path\",\n        \"idempotency_key\": \"return:cor_01a0a50c468274c39654316ae6a7e546\",\n        \"content_type\": \"application/json\",\n        \"attempt\": 1,\n        \"max_attempts\": 5,\n        \"status\": \"completed\",\n        \"resumed_uncertain\": 0,\n        \"created_at\": \"2026-09-15T12:30:46.975020Z\",\n        \"completed_at\": \"2026-09-15T12:30:46.978067Z\",\n        \"last_error\": null,\n        \"authority\": \"{\\\"decision\\\":\\\"granted\\\",\\\"reason\\\":\\\"return path for an accepted receipt\\\"}\",\n        \"telemetry\": \"{\\\"trace_id\\\":\\\"f559ebb226c14a2aa614fba8e4c877f4\\\",\\\"span_id\\\":\\\"abc463711248450b\\\",\\\"traceparent\\\":\\\"00-f559ebb226c14a2aa614fba8e4c877f4-abc463711248450b-01\\\"}\"\n      }\n    ]\n  }\n}"
+      }
+    ],
+    "structuredContent": {
+      "capability": "mcp.dispatch",
+      "tool": "invoke_service",
+      "result": {
+        "receipt_id": "rcp_01a0a50c468274c396543175eeba1181",
+        "status": "routed",
+        "runs": [
+          {
+            "id": "run_01a0a50c46857c50a58b86bc570efdb6",
+            "receipt_id": "rcp_01a0a50c468274c396543175eeba1181",
+            "capability": "mcp.dispatch",
+            "status": "completed",
+            "output": "{\"capability\":\"mcp.dispatch\",\"tool\":\"invoke_service\",\"result\":{\"capability\":\"service.invoke\",\"contract_id\":\"a5a2849b-f76f-44b3-845f-ab5bd980e98b\",\"contract_sha256\":\"c2eece788d0cf50ff32876bd1747f9db7765fda1165f180f3ae6549eeff157ad\",\"definition_sha256\":\"15b27ae3c4a42a5ef6487722e0412073e7f0303c91ecd751990fc5428513fd11\",\"result\":{\"capability\":\"document.inspect\",\"observation\":{\"digest\":\"d4cf5f8ebdd69643cc7e5b26602dff7aa38436579cc9baaa793777850197b8a7\",\"size_bytes\":144,\"sniffed_content_type\":\"application/json\",\"declared_content_type\":\"application/json\",\"structure\":{\"kind\":\"json\",\"top_level\":[\"event\",\"task\",\"source\"]}}},\"outputs\":{\"preserve\":{\"capability\":\"object.store\",\"digest\":\"d4cf5f8ebdd69643cc7e5b26602dff7aa38436579cc9baaa793777850197b8a7\",\"size_bytes\":144,\"content_type\":\"application/json\"},\"inspect\":{\"capability\":\"document.inspect\",\"observation\":{\"digest\":\"d4cf5f8ebdd69643cc7e5b26602dff7aa38436579cc9baaa793777850197b8a7\",\"size_bytes\":144,\"sniffed_content_type\":\"application/json\",\"declared_content_type\":\"application/json\",\"structure\":{\"kind\":\"json\",\"top_level\":[\"event\",\"task\",\"source\"]}}}}}}",
+            "error": null,
+            "created_at": "2026-09-15T12:30:40.261675Z",
+            "completed_at": "2026-09-15T12:30:46.975300Z"
+          }
+        ],
+        "deliveries": [
+          {
+            "id": "dlv_01a0a50c60be7700abe18d7d2da1b45d",
+            "receipt_id": "rcp_01a0a50c468274c396543175eeba1181",
+            "run_id": "run_01a0a50c46857c50a58b86bc570efdb6",
+            "correlation_id": "cor_01a0a50c468274c39654316ae6a7e546",
+            "destination": "return-path:mcp:cor_01a0a50c468274c39654316ae6a7e546",
+            "transport": "return-path",
+            "idempotency_key": "return:cor_01a0a50c468274c39654316ae6a7e546",
+            "content_type": "application/json",
+            "attempt": 1,
+            "max_attempts": 5,
+            "status": "completed",
+            "resumed_uncertain": 0,
+            "created_at": "2026-09-15T12:30:46.975020Z",
+            "completed_at": "2026-09-15T12:30:46.978067Z",
+            "last_error": null,
+            "authority": "{\"decision\":\"granted\",\"reason\":\"return path for an accepted receipt\"}",
+            "telemetry": "{\"trace_id\":\"f559ebb226c14a2aa614fba8e4c877f4\",\"span_id\":\"abc463711248450b\",\"traceparent\":\"00-f559ebb226c14a2aa614fba8e4c877f4-abc463711248450b-01\"}"
+          }
+        ]
+      }
+    },
+    "isError": false,
+    "_meta": {
+      "antenna/receipt_id": "rcp_01a0a50ceb837903a07cec0831af4651",
+      "antenna/correlation_id": "cor_01a0a50ceb837903a07cebfbf51cd2e3",
+      "io.modelcontextprotocol/serverInfo": {
+        "name": "antenna",
+        "version": "0.1.0"
+      }
+    },
+    "resultType": "complete"
+  }
+}

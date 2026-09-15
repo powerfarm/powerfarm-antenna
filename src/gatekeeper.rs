@@ -51,14 +51,12 @@ pub fn authorize(cfg: &Config, destination: &str) -> Authority {
         return Authority::Granted { reason: "internal capability hand-off".into() };
     }
 
-    if let Some(rest) = destination
-        .strip_prefix("https://")
-        .or_else(|| destination.strip_prefix("http://"))
-    {
-        let host = rest.split(['/', ':', '?']).next().unwrap_or("");
-        if host.is_empty() {
-            return Authority::Denied { reason: "destination has no host".into() };
-        }
+    if destination.starts_with("https://") || destination.starts_with("http://") {
+        let url=match reqwest::Url::parse(destination) {
+            Ok(url) if url.username().is_empty() && url.password().is_none() && url.fragment().is_none()=>url,
+            _=>return Authority::Denied{reason:"invalid destination URL or embedded credentials".into()},
+        };
+        let Some(host)=url.host_str() else {return Authority::Denied{reason:"destination has no host".into()};};
         if cfg.gatekeeper.allow_destinations.is_empty() {
             return Authority::Denied {
                 reason: "no destinations are allowed by policy".into(),
@@ -119,5 +117,10 @@ mod tests {
     #[test]
     fn shell_shaped_destinations_are_refused() {
         assert!(!authorize(&cfg_with(&["*"]), "sh:rm -rf /").is_granted());
+    }
+
+    #[test]
+    fn userinfo_cannot_disguise_an_unlisted_destination() {
+        assert!(!authorize(&cfg_with(&["allowed.test"]),"https://allowed.test:password@evil.test/path").is_granted());
     }
 }
