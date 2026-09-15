@@ -58,7 +58,7 @@ pub async fn get_not_allowed() -> impl IntoResponse {
 pub async fn post(
     State(app): State<App>,
     ConnectInfo(peer): ConnectInfo<SocketAddr>,
-    headers: HeaderMap,
+    mut headers: HeaderMap,
     body: Bytes,
 ) -> impl IntoResponse {
     let req: Value = match serde_json::from_slice(&body) {
@@ -162,7 +162,16 @@ not asserted as true."
         }
 
         "tools/call" => {
-            if !crate::ingress::inspection_allowed(&app, &headers) {
+            if req.pointer("/params/name").and_then(Value::as_str)==Some("invoke_service") {
+                let Some(contract)=req.pointer("/params/arguments/contract").and_then(Value::as_str) else {
+                    return (StatusCode::BAD_REQUEST,Json(err(id,-32602,"invoke_service requires arguments.contract"))).into_response();
+                };
+                if let Err(error)=crate::services::admit_mcp(&app,&mut headers,contract).await {
+                    return (StatusCode::FORBIDDEN,Json(err(id,-32001,&error.to_string()))).into_response();
+                }
+            }
+            let contracted=crate::services::is_service(&headers) && req.pointer("/params/name").and_then(Value::as_str)==Some("invoke_service");
+            if !contracted && !crate::ingress::inspection_allowed(&app, &headers) {
                 return (StatusCode::UNAUTHORIZED, Json(err(id, -32001, "operator authentication required"))).into_response();
             }
             if req.pointer("/params/arguments").is_some_and(|v| !v.is_object()) {
@@ -220,10 +229,10 @@ async fn tools_call(
         correlation_id: Some(correlation_id.clone()),
         return_path: Some(format!("mcp:{correlation_id}")),
         route_hint: Some(tool_name.clone()),
-        relationships: Some(json!({
+        relationships: crate::services::relationships(&headers,json!({
             "jsonrpc_id": id,
             "mcp_protocol_version": header(&headers, "mcp-protocol-version")
-        }).to_string()),
+        })),
         ..Default::default()
     };
 

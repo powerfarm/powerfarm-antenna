@@ -356,6 +356,7 @@ pub struct McpDispatch;
 /// Note what is absent: anything resembling shell execution.
 pub fn mcp_tool_map(tool: &str) -> Option<&'static str> {
     Some(match tool {
+        "invoke_service" => "service.invoke",
         "inspect_document" => "document.inspect",
         "store_object" => "object.store",
         "create_delivery" => "delivery.create",
@@ -367,6 +368,7 @@ pub fn mcp_tool_map(tool: &str) -> Option<&'static str> {
 }
 
 pub const MCP_TOOLS: &[(&str, &str)] = &[
+    ("invoke_service", "service.invoke"),
     ("inspect_document", "document.inspect"),
     ("store_object", "object.store"),
     ("create_delivery", "delivery.create"),

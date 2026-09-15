@@ -19,6 +19,7 @@ pub mod returnpath;
 pub mod router;
 pub mod run;
 pub mod sheet;
+pub mod services;
 pub mod storage;
 pub mod telemetry;
 
@@ -49,8 +50,10 @@ pub fn build(cfg: Config, routes_path: &Path) -> Result<App> {
     caps.register(Arc::new(capability::builtins::ReceiptsQuery));
     caps.register(Arc::new(capability::builtins::McpDispatch));
     caps.register(Arc::new(capability::talent::IngressInterpreter));
+    caps.register(Arc::new(services::InvokeService));
 
     let http = reqwest::Client::builder()
+        .redirect(reqwest::redirect::Policy::none())
         .timeout(std::time::Duration::from_millis(cfg.delivery.http_timeout_ms))
         .user_agent(concat!("antenna/", env!("CARGO_PKG_VERSION")))
         .build()
@@ -65,6 +68,7 @@ pub fn build(cfg: Config, routes_path: &Path) -> Result<App> {
         returns: returnpath::ReturnPaths::new(),
         outbox_notify: tokio::sync::Notify::new(),
         http,
+        services: services::ServiceRegistry::default(),
     }))
 }
 
@@ -100,6 +104,7 @@ pub fn http_router(app: App) -> Router {
     bounded
         .merge(streaming)
         .merge(inspect)
+        .layer(axum::middleware::from_fn_with_state(app.clone(), services::admit))
         .layer(tower_http::trace::TraceLayer::new_for_http())
         .with_state(app)
 }

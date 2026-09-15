@@ -35,6 +35,13 @@ async fn main() -> Result<()> {
         .with_context(|| format!("parsing bind address {:?}", cfg.server.bind))?;
 
     let app = build(cfg, &routes_path)?;
+    if app.cfg.services.enabled {
+        // A recovered service run must consult current authority before resuming.
+        if let Err(error)=antenna::services::refresh(&app).await {
+            tracing::warn!(error=%error,"contract authority unavailable; contracted work waits for refresh");
+        }
+        tokio::spawn(antenna::services::worker(app.clone()));
+    }
 
     // Recover BEFORE serving. Work accepted by a previous process is finished
     // (or honestly marked uncertain) before new work is admitted.

@@ -85,6 +85,10 @@ async fn serve(app: App, socket: WebSocket, peer: SocketAddr, headers: HeaderMap
         };
 
         let correlation_id = crate::ids::new_id("cor");
+        if let Err(error)=crate::services::check_frame(&app,&headers,body.len()).await {
+            tracing::warn!(error=%error,"websocket client contract no longer permits input");
+            break;
+        }
         if let Ok(v) = serde_json::from_slice::<Value>(&body) {
             if let Some(cid) = v.get("id") {
                 client_ids.lock().unwrap().insert(correlation_id.clone(), cid.clone());
@@ -103,7 +107,7 @@ async fn serve(app: App, socket: WebSocket, peer: SocketAddr, headers: HeaderMap
             interaction: "stream".into(),
             correlation_id: Some(correlation_id.clone()),
             return_path: Some(return_path.clone()),
-            relationships: Some(json!({ "connection": conn_id }).to_string()),
+            relationships: crate::services::relationships(&headers,json!({ "connection": conn_id })),
             ..Default::default()
         };
 

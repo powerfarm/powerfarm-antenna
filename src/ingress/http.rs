@@ -54,6 +54,7 @@ pub async fn ingress(
         correlation_id: Some(correlation_id.clone()),
         return_path: wants_answer.then(|| format!("active-response:{correlation_id}")),
         route_hint: header(&headers, "antenna-route-hint"),
+        relationships: crate::services::relationships(&headers,json!({})),
         ..Default::default()
     };
 
@@ -380,6 +381,7 @@ pub async fn submit(
             correlation_id: Some(correlation_id.clone()),
             return_path: wants_answer.then(|| format!("active-response:{correlation_id}")),
             route_hint: header(&headers, "antenna-route-hint"),
+            relationships: crate::services::relationships(&headers,json!({})),
             ..Default::default()
         };
 
@@ -459,6 +461,7 @@ pub async fn submit(
             correlation_id: Some(correlation_id.clone()),
             return_path: wants_answer.then(|| format!("active-response:{correlation_id}")),
             route_hint: header(&headers, "antenna-route-hint"),
+            relationships: crate::services::relationships(&headers,json!({})),
             ..Default::default()
         };
 
@@ -738,7 +741,8 @@ pub async fn health(State(app): State<App>) -> impl IntoResponse {
             "deliveries_pending": pending,
             "deliveries_resumed_uncertain": uncertain,
             "capabilities": app.caps.names(),
-            "talent_enabled": app.cfg.talent.enabled
+            "talent_enabled": app.cfg.talent.enabled,
+            "contract_services": if app.cfg.services.enabled {app.services.health().await} else {json!({"status":"disabled"})}
         })))
         .into_response(),
         Err(e) => (StatusCode::SERVICE_UNAVAILABLE,
