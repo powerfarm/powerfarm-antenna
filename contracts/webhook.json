@@ -1,0 +1,39 @@
+{
+  "schema": "antenna.service.v1",
+  "title": "Webhook capture service",
+  "transport": "webhook",
+  "capabilities": [
+    "object.store",
+    "document.inspect"
+  ],
+  "graph": {
+    "start": "preserve",
+    "nodes": {
+      "preserve": "object.store",
+      "inspect": "document.inspect"
+    },
+    "edges": [
+      [
+        "preserve",
+        "inspect"
+      ],
+      [
+        "inspect",
+        "END"
+      ]
+    ],
+    "parameters": {
+      "preserve": {
+        "content": {
+          "json_from": "input"
+        },
+        "content_type": "application/json"
+      },
+      "inspect": {
+        "digest": {
+          "from": "result.digest"
+        }
+      }
+    }
+  }
+}
