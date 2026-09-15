@@ -9,6 +9,13 @@ One Rust binary. SQLite for the record, a content-addressed bucket for bytes.
 No model is required to boot. See [ANTENNA_SPEC.md](ANTENNA_SPEC.md) for the
 invariants that survived implementation.
 
+The [implementation plan](docs/IMPLEMENTATION_PLAN.md) describes the migration
+from the current code to one interaction endpoint, Registry-compiled authority,
+durable software instances/Cards on the planned Continuity runtime, economic
+authority, and GitHub CI/CD under contracts. Its first integrated milestone
+includes spending, executor handoff, delivery acceptance, and settlement before
+expanding the portal and paid realtime services.
+
 ## Run
 
 ```bash

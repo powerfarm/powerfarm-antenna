@@ -77,6 +77,7 @@ pub fn http_router(app: App) -> Router {
     // /blob streams to disk and enforces its own cap, so the buffering limit
     // layer must not apply to it. Everything else is bounded here.
     let bounded = Router::new()
+        .route("/", post(ingress::http::submit))
         .route("/ingress", post(ingress::http::ingress))
         .route("/internal/github", post(ingress::github::accept))
         .route("/mcp", post(ingress::mcp::post).get(ingress::mcp::get_not_allowed))
@@ -87,6 +88,7 @@ pub fn http_router(app: App) -> Router {
         .layer(axum::extract::DefaultBodyLimit::disable());
 
     let inspect = Router::new()
+        .route("/", get(ingress::http::landing))
         .route("/health", get(ingress::http::health))
         .route("/status", get(ingress::http::operational_status))
         .route("/receipts", get(ingress::http::list_receipts))
