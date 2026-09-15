@@ -1,0 +1,7 @@
+{
+  "backup": "/Users/danvoulez/lab/antenna-backup-20260915T085528Z",
+  "code_commit": "7de9964d8a376606a5765027c3a8d216a2586b73",
+  "binary_sha256": "1501da837cbb9d85c01c10c9d83923396c8d051aaa9af7e4e8529dd7d54b9f3e",
+  "activated_at": "2026-09-15T08:55:28.665081+00:00",
+  "runtime": "/Users/danvoulez/lab/antenna/runtime/.venv/bin/python"
+}

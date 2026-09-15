@@ -1,0 +1,108 @@
+{
+  "health_after_restart": {
+    "status": "alive",
+    "version": "0.1.0",
+    "receipts": 68,
+    "deliveries_pending": 0,
+    "deliveries_resumed_uncertain": 0,
+    "capabilities": [
+      "echo",
+      "document.inspect",
+      "object.store",
+      "delivery.create",
+      "capabilities.list",
+      "receipts.query",
+      "mcp.dispatch",
+      "ingress.interpreter",
+      "service.invoke"
+    ],
+    "talent_enabled": false,
+    "contract_services": {
+      "status": "current",
+      "active_client_contracts": 4,
+      "expires_at": "2026-09-15T12:31:16.527160Z"
+    }
+  },
+  "prior_receipt_inspection": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"capability\": \"mcp.dispatch\",\n  \"tool\": \"invoke_service\",\n  \"result\": {\n    \"receipt_id\": \"rcp_01a0a4484d757761a0fc74ce52b57a53\",\n    \"status\": \"routed\",\n    \"runs\": [\n      {\n        \"id\": \"run_01a0a4484d777fb2adf984067f3e41e4\",\n        \"receipt_id\": \"rcp_01a0a4484d757761a0fc74ce52b57a53\",\n        \"capability\": \"mcp.dispatch\",\n        \"status\": \"completed\",\n        \"output\": \"{\\\"capability\\\":\\\"mcp.dispatch\\\",\\\"tool\\\":\\\"invoke_service\\\",\\\"result\\\":{\\\"capability\\\":\\\"service.invoke\\\",\\\"contract_id\\\":\\\"a5a2849b-f76f-44b3-845f-ab5bd980e98b\\\",\\\"contract_sha256\\\":\\\"c2eece788d0cf50ff32876bd1747f9db7765fda1165f180f3ae6549eeff157ad\\\",\\\"definition_sha256\\\":\\\"15b27ae3c4a42a5ef6487722e0412073e7f0303c91ecd751990fc5428513fd11\\\",\\\"result\\\":{\\\"capability\\\":\\\"document.inspect\\\",\\\"observation\\\":{\\\"digest\\\":\\\"c63a61540ea9fad5a7bd6217efa96f747cd8c6cf6c442aca050d4c72c42b9624\\\",\\\"size_bytes\\\":151,\\\"sniffed_content_type\\\":\\\"application/json\\\",\\\"declared_content_type\\\":\\\"application/json\\\",\\\"structure\\\":{\\\"kind\\\":\\\"json\\\",\\\"top_level\\\":[\\\"event\\\",\\\"source\\\",\\\"message\\\",\\\"transport\\\"]}}},\\\"outputs\\\":{\\\"preserve\\\":{\\\"capability\\\":\\\"object.store\\\",\\\"digest\\\":\\\"c63a61540ea9fad5a7bd6217efa96f747cd8c6cf6c442aca050d4c72c42b9624\\\",\\\"size_bytes\\\":151,\\\"content_type\\\":\\\"application/json\\\"},\\\"inspect\\\":{\\\"capability\\\":\\\"document.inspect\\\",\\\"observation\\\":{\\\"digest\\\":\\\"c63a61540ea9fad5a7bd6217efa96f747cd8c6cf6c442aca050d4c72c42b9624\\\",\\\"size_bytes\\\":151,\\\"sniffed_content_type\\\":\\\"application/json\\\",\\\"declared_content_type\\\":\\\"application/json\\\",\\\"structure\\\":{\\\"kind\\\":\\\"json\\\",\\\"top_level\\\":[\\\"event\\\",\\\"source\\\",\\\"message\\\",\\\"transport\\\"]}}}}}}\",\n        \"error\": null,\n        \"created_at\": \"2026-09-15T08:56:36.983530Z\",\n        \"completed_at\": \"2026-09-15T08:56:43.835592Z\"\n      }\n    ],\n    \"deliveries\": [\n      {\n        \"id\": \"dlv_01a0a448683b7da1a7a8739cc10f1830\",\n        \"receipt_id\": \"rcp_01a0a4484d757761a0fc74ce52b57a53\",\n        \"run_id\": \"run_01a0a4484d777fb2adf984067f3e41e4\",\n        \"correlation_id\": \"cor_01a0a4484d747721b7768c663ec00c44\",\n        \"destination\": \"return-path:mcp:cor_01a0a4484d747721b7768c663ec00c44\",\n        \"transport\": \"return-path\",\n        \"idempotency_key\": \"return:cor_01a0a4484d747721b7768c663ec00c44\",\n        \"content_type\": \"application/json\",\n        \"attempt\": 1,\n        \"max_attempts\": 5,\n        \"status\": \"completed\",\n        \"resumed_uncertain\": 0,\n        \"created_at\": \"2026-09-15T08:56:43.835337Z\",\n        \"completed_at\": \"2026-09-15T08:56:43.837704Z\",\n        \"last_error\": null,\n        \"authority\": \"{\\\"decision\\\":\\\"granted\\\",\\\"reason\\\":\\\"return path for an accepted receipt\\\"}\",\n        \"telemetry\": \"{\\\"trace_id\\\":\\\"5c6836339b364ef8b6bec30df9fe389d\\\",\\\"span_id\\\":\\\"b6027e302f9f46a0\\\",\\\"traceparent\\\":\\\"00-5c6836339b364ef8b6bec30df9fe389d-b6027e302f9f46a0-01\\\"}\"\n      }\n    ]\n  }\n}"
+        }
+      ],
+      "structuredContent": {
+        "capability": "mcp.dispatch",
+        "tool": "invoke_service",
+        "result": {
+          "receipt_id": "rcp_01a0a4484d757761a0fc74ce52b57a53",
+          "status": "routed",
+          "runs": [
+            {
+              "id": "run_01a0a4484d777fb2adf984067f3e41e4",
+              "receipt_id": "rcp_01a0a4484d757761a0fc74ce52b57a53",
+              "capability": "mcp.dispatch",
+              "status": "completed",
+              "output": "{\"capability\":\"mcp.dispatch\",\"tool\":\"invoke_service\",\"result\":{\"capability\":\"service.invoke\",\"contract_id\":\"a5a2849b-f76f-44b3-845f-ab5bd980e98b\",\"contract_sha256\":\"c2eece788d0cf50ff32876bd1747f9db7765fda1165f180f3ae6549eeff157ad\",\"definition_sha256\":\"15b27ae3c4a42a5ef6487722e0412073e7f0303c91ecd751990fc5428513fd11\",\"result\":{\"capability\":\"document.inspect\",\"observation\":{\"digest\":\"c63a61540ea9fad5a7bd6217efa96f747cd8c6cf6c442aca050d4c72c42b9624\",\"size_bytes\":151,\"sniffed_content_type\":\"application/json\",\"declared_content_type\":\"application/json\",\"structure\":{\"kind\":\"json\",\"top_level\":[\"event\",\"source\",\"message\",\"transport\"]}}},\"outputs\":{\"preserve\":{\"capability\":\"object.store\",\"digest\":\"c63a61540ea9fad5a7bd6217efa96f747cd8c6cf6c442aca050d4c72c42b9624\",\"size_bytes\":151,\"content_type\":\"application/json\"},\"inspect\":{\"capability\":\"document.inspect\",\"observation\":{\"digest\":\"c63a61540ea9fad5a7bd6217efa96f747cd8c6cf6c442aca050d4c72c42b9624\",\"size_bytes\":151,\"sniffed_content_type\":\"application/json\",\"declared_content_type\":\"application/json\",\"structure\":{\"kind\":\"json\",\"top_level\":[\"event\",\"source\",\"message\",\"transport\"]}}}}}}",
+              "error": null,
+              "created_at": "2026-09-15T08:56:36.983530Z",
+              "completed_at": "2026-09-15T08:56:43.835592Z"
+            }
+          ],
+          "deliveries": [
+            {
+              "id": "dlv_01a0a448683b7da1a7a8739cc10f1830",
+              "receipt_id": "rcp_01a0a4484d757761a0fc74ce52b57a53",
+              "run_id": "run_01a0a4484d777fb2adf984067f3e41e4",
+              "correlation_id": "cor_01a0a4484d747721b7768c663ec00c44",
+              "destination": "return-path:mcp:cor_01a0a4484d747721b7768c663ec00c44",
+              "transport": "return-path",
+              "idempotency_key": "return:cor_01a0a4484d747721b7768c663ec00c44",
+              "content_type": "application/json",
+              "attempt": 1,
+              "max_attempts": 5,
+              "status": "completed",
+              "resumed_uncertain": 0,
+              "created_at": "2026-09-15T08:56:43.835337Z",
+              "completed_at": "2026-09-15T08:56:43.837704Z",
+              "last_error": null,
+              "authority": "{\"decision\":\"granted\",\"reason\":\"return path for an accepted receipt\"}",
+              "telemetry": "{\"trace_id\":\"5c6836339b364ef8b6bec30df9fe389d\",\"span_id\":\"b6027e302f9f46a0\",\"traceparent\":\"00-5c6836339b364ef8b6bec30df9fe389d-b6027e302f9f46a0-01\"}"
+            }
+          ]
+        }
+      },
+      "isError": false,
+      "_meta": {
+        "antenna/receipt_id": "rcp_01a0a50befa37571a9cab5273f97e445",
+        "antenna/correlation_id": "cor_01a0a50befa37571a9cab518f8dd26a1",
+        "io.modelcontextprotocol/serverInfo": {
+          "name": "antenna",
+          "version": "0.1.0"
+        }
+      },
+      "resultType": "complete"
+    }
+  },
+  "original_run_counts": {
+    "rcp_01a0a447c1e77563814a64014345d3f2": 1,
+    "rcp_01a0a447fa3178138d3f66dfb906d1a4": 1,
+    "rcp_01a0a448171f79609629a1d8f3565e5f": 1,
+    "rcp_01a0a4483335725296b285f521af1fad": 1,
+    "rcp_01a0a4484d757761a0fc74ce52b57a53": 1
+  },
+  "run_counts_after_restart_and_inspection": {
+    "rcp_01a0a447c1e77563814a64014345d3f2": 1,
+    "rcp_01a0a447fa3178138d3f66dfb906d1a4": 1,
+    "rcp_01a0a448171f79609629a1d8f3565e5f": 1,
+    "rcp_01a0a4483335725296b285f521af1fad": 1,
+    "rcp_01a0a4484d757761a0fc74ce52b57a53": 1
+  },
+  "enabled_configuration": {
+    "talent": false,
+    "google": true,
+    "services": true
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n  \"capability\": \"mcp.dispatch\",\n  \"tool\": \"invoke_service\",\n  \"result\": {\n    \"capability\": \"service.invoke\",\n    \"contract_id\": \"a5a2849b-f76f-44b3-845f-ab5bd980e98b\",\n    \"contract_sha256\": \"c2eece788d0cf50ff32876bd1747f9db7765fda1165f180f3ae6549eeff157ad\",\n    \"definition_sha256\": \"15b27ae3c4a42a5ef6487722e0412073e7f0303c91ecd751990fc5428513fd11\",\n    \"result\": {\n      \"capability\": \"document.inspect\",\n      \"observation\": {\n        \"digest\": \"d4cf5f8ebdd69643cc7e5b26602dff7aa38436579cc9baaa793777850197b8a7\",\n        \"size_bytes\": 144,\n        \"sniffed_content_type\": \"application/json\",\n        \"declared_content_type\": \"application/json\",\n        \"structure\": {\n          \"kind\": \"json\",\n          \"top_level\": [\n            \"event\",\n            \"task\",\n            \"source\"\n          ]\n        }\n      }\n    },\n    \"outputs\": {\n      \"preserve\": {\n        \"capability\": \"object.store\",\n        \"digest\": \"d4cf5f8ebdd69643cc7e5b26602dff7aa38436579cc9baaa793777850197b8a7\",\n        \"size_bytes\": 144,\n        \"content_type\": \"application/json\"\n      },\n      \"inspect\": {\n        \"capability\": \"document.inspect\",\n        \"observation\": {\n          \"digest\": \"d4cf5f8ebdd69643cc7e5b26602dff7aa38436579cc9baaa793777850197b8a7\",\n          \"size_bytes\": 144,\n          \"sniffed_content_type\": \"application/json\",\n          \"declared_content_type\": \"application/json\",\n          \"structure\": {\n            \"kind\": \"json\",\n            \"top_level\": [\n              \"event\",\n              \"task\",\n              \"source\"\n            ]\n          }\n        }\n      }\n    }\n  }\n}"
+      }
+    ],
+    "structuredContent": {
+      "capability": "mcp.dispatch",
+      "tool": "invoke_service",
+      "result": {
+        "capability": "service.invoke",
+        "contract_id": "a5a2849b-f76f-44b3-845f-ab5bd980e98b",
+        "contract_sha256": "c2eece788d0cf50ff32876bd1747f9db7765fda1165f180f3ae6549eeff157ad",
+        "definition_sha256": "15b27ae3c4a42a5ef6487722e0412073e7f0303c91ecd751990fc5428513fd11",
+        "result": {
+          "capability": "document.inspect",
+          "observation": {
+            "digest": "d4cf5f8ebdd69643cc7e5b26602dff7aa38436579cc9baaa793777850197b8a7",
+            "size_bytes": 144,
+            "sniffed_content_type": "application/json",
+            "declared_content_type": "application/json",
+            "structure": {
+              "kind": "json",
+              "top_level": [
+                "event",
+                "task",
+                "source"
+              ]
+            }
+          }
+        },
+        "outputs": {
+          "preserve": {
+            "capability": "object.store",
+            "digest": "d4cf5f8ebdd69643cc7e5b26602dff7aa38436579cc9baaa793777850197b8a7",
+            "size_bytes": 144,
+            "content_type": "application/json"
+          },
+          "inspect": {
+            "capability": "document.inspect",
+            "observation": {
+              "digest": "d4cf5f8ebdd69643cc7e5b26602dff7aa38436579cc9baaa793777850197b8a7",
+              "size_bytes": 144,
+              "sniffed_content_type": "application/json",
+              "declared_content_type": "application/json",
+              "structure": {
+                "kind": "json",
+                "top_level": [
+                  "event",
+                  "task",
+                  "source"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "isError": false,
+    "_meta": {
+      "antenna/receipt_id": "rcp_01a0a50c468274c396543175eeba1181",
+      "antenna/correlation_id": "cor_01a0a50c468274c39654316ae6a7e546",
+      "io.modelcontextprotocol/serverInfo": {
+        "name": "antenna",
+        "version": "0.1.0"
+      }
+    },
+    "resultType": "complete"
+  }
+}

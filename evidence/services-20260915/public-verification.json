@@ -1,0 +1,369 @@
+{
+  "url": "https://antenna.minilab.work",
+  "results": [
+    {
+      "transport": "http",
+      "receipt_id": "rcp_01a0a447c1e77563814a64014345d3f2",
+      "contract_id": "a5a2849b-f76f-44b3-845f-ab5bd980e98b",
+      "result": {
+        "capability": "service.invoke",
+        "contract_id": "a5a2849b-f76f-44b3-845f-ab5bd980e98b",
+        "contract_sha256": "c2eece788d0cf50ff32876bd1747f9db7765fda1165f180f3ae6549eeff157ad",
+        "definition_sha256": "15b27ae3c4a42a5ef6487722e0412073e7f0303c91ecd751990fc5428513fd11",
+        "result": {
+          "capability": "document.inspect",
+          "observation": {
+            "digest": "7da6a2652d7c77ab1087675991cb58429a138f0c1ed19479b02e193afb004e0c",
+            "size_bytes": 152,
+            "sniffed_content_type": "application/json",
+            "declared_content_type": "application/json",
+            "structure": {
+              "kind": "json",
+              "top_level": [
+                "event",
+                "source",
+                "message",
+                "transport"
+              ]
+            }
+          }
+        },
+        "outputs": {
+          "preserve": {
+            "capability": "object.store",
+            "digest": "7da6a2652d7c77ab1087675991cb58429a138f0c1ed19479b02e193afb004e0c",
+            "size_bytes": 152,
+            "content_type": "application/json"
+          },
+          "inspect": {
+            "capability": "document.inspect",
+            "observation": {
+              "digest": "7da6a2652d7c77ab1087675991cb58429a138f0c1ed19479b02e193afb004e0c",
+              "size_bytes": 152,
+              "sniffed_content_type": "application/json",
+              "declared_content_type": "application/json",
+              "structure": {
+                "kind": "json",
+                "top_level": [
+                  "event",
+                  "source",
+                  "message",
+                  "transport"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "transport": "webhook",
+      "receipt_id": "rcp_01a0a447fa3178138d3f66dfb906d1a4",
+      "contract_id": "08dcdf45-fcc3-477d-be5f-11f0b9946b7c",
+      "result": {
+        "capability": "service.invoke",
+        "contract_id": "08dcdf45-fcc3-477d-be5f-11f0b9946b7c",
+        "contract_sha256": "63f27606cda3586e0121ee4d8a022d9397d6262c8a4d6765e573a9c892282777",
+        "definition_sha256": "9253d5f61697a5fdb0ef94efe10428b64d5eae41320b3e72df7ca0f6940571b3",
+        "result": {
+          "capability": "document.inspect",
+          "observation": {
+            "digest": "f88aa3c291f6a1cea703a7f747c8443df1e14a17449ded869092175b39fc253f",
+            "size_bytes": 155,
+            "sniffed_content_type": "application/json",
+            "declared_content_type": "application/json",
+            "structure": {
+              "kind": "json",
+              "top_level": [
+                "event",
+                "source",
+                "message",
+                "transport"
+              ]
+            }
+          }
+        },
+        "outputs": {
+          "preserve": {
+            "capability": "object.store",
+            "digest": "f88aa3c291f6a1cea703a7f747c8443df1e14a17449ded869092175b39fc253f",
+            "size_bytes": 155,
+            "content_type": "application/json"
+          },
+          "inspect": {
+            "capability": "document.inspect",
+            "observation": {
+              "digest": "f88aa3c291f6a1cea703a7f747c8443df1e14a17449ded869092175b39fc253f",
+              "size_bytes": 155,
+              "sniffed_content_type": "application/json",
+              "declared_content_type": "application/json",
+              "structure": {
+                "kind": "json",
+                "top_level": [
+                  "event",
+                  "source",
+                  "message",
+                  "transport"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "transport": "sse",
+      "receipt_id": "rcp_01a0a448171f79609629a1d8f3565e5f",
+      "contract_id": "759caf5e-4fbd-4c87-96f6-690542a44601",
+      "result": {
+        "capability": "service.invoke",
+        "contract_id": "759caf5e-4fbd-4c87-96f6-690542a44601",
+        "contract_sha256": "adb9df06b067de7d98eab342321e476245977e6a2d38ae38a9b3667df82de427",
+        "definition_sha256": "87acf7160f9feca498ef70c58fc5b38a9f0219deeb8a1127bd57c233dbae68f9",
+        "result": {
+          "capability": "document.inspect",
+          "observation": {
+            "digest": "245e9b121f7a46bc936dcf9e2591a51f727c687bf234fd2bdf3d98963742972b",
+            "size_bytes": 151,
+            "sniffed_content_type": "application/json",
+            "declared_content_type": "application/json",
+            "structure": {
+              "kind": "json",
+              "top_level": [
+                "event",
+                "source",
+                "message",
+                "transport"
+              ]
+            }
+          }
+        },
+        "outputs": {
+          "preserve": {
+            "capability": "object.store",
+            "digest": "245e9b121f7a46bc936dcf9e2591a51f727c687bf234fd2bdf3d98963742972b",
+            "size_bytes": 151,
+            "content_type": "application/json"
+          },
+          "inspect": {
+            "capability": "document.inspect",
+            "observation": {
+              "digest": "245e9b121f7a46bc936dcf9e2591a51f727c687bf234fd2bdf3d98963742972b",
+              "size_bytes": 151,
+              "sniffed_content_type": "application/json",
+              "declared_content_type": "application/json",
+              "structure": {
+                "kind": "json",
+                "top_level": [
+                  "event",
+                  "source",
+                  "message",
+                  "transport"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "transport": "websocket",
+      "receipt_id": "rcp_01a0a4483335725296b285f521af1fad",
+      "result": {
+        "capability": "service.invoke",
+        "contract_id": "31fb3f4c-0687-4692-961f-530936263556",
+        "contract_sha256": "bcaf7199ee894818748cf45c2c47c445c3e3e2df37b5254cc0d3425412c23d3c",
+        "definition_sha256": "0b45beb77485ea32129b3c631d4bd1e57f1016015f29ac9257d47b10dd0d5d53",
+        "result": {
+          "capability": "document.inspect",
+          "observation": {
+            "digest": "7bef400440c43fb2d65423ebbee84c22811c91becf6bcad3391b1cdc5daf10e5",
+            "size_bytes": 185,
+            "sniffed_content_type": "application/json",
+            "declared_content_type": "application/json",
+            "structure": {
+              "kind": "json",
+              "top_level": [
+                "event",
+                "source",
+                "message",
+                "id",
+                "transport"
+              ]
+            }
+          }
+        },
+        "outputs": {
+          "preserve": {
+            "capability": "object.store",
+            "digest": "7bef400440c43fb2d65423ebbee84c22811c91becf6bcad3391b1cdc5daf10e5",
+            "size_bytes": 185,
+            "content_type": "application/json"
+          },
+          "inspect": {
+            "capability": "document.inspect",
+            "observation": {
+              "digest": "7bef400440c43fb2d65423ebbee84c22811c91becf6bcad3391b1cdc5daf10e5",
+              "size_bytes": 185,
+              "sniffed_content_type": "application/json",
+              "declared_content_type": "application/json",
+              "structure": {
+                "kind": "json",
+                "top_level": [
+                  "event",
+                  "source",
+                  "message",
+                  "id",
+                  "transport"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "transport": "mcp",
+      "receipt_id": "rcp_01a0a4484d757761a0fc74ce52b57a53",
+      "response": {
+        "jsonrpc": "2.0",
+        "id": 1,
+        "result": {
+          "content": [
+            {
+              "type": "text",
+              "text": "{\n  \"capability\": \"mcp.dispatch\",\n  \"tool\": \"invoke_service\",\n  \"result\": {\n    \"capability\": \"service.invoke\",\n    \"contract_id\": \"a5a2849b-f76f-44b3-845f-ab5bd980e98b\",\n    \"contract_sha256\": \"c2eece788d0cf50ff32876bd1747f9db7765fda1165f180f3ae6549eeff157ad\",\n    \"definition_sha256\": \"15b27ae3c4a42a5ef6487722e0412073e7f0303c91ecd751990fc5428513fd11\",\n    \"result\": {\n      \"capability\": \"document.inspect\",\n      \"observation\": {\n        \"digest\": \"c63a61540ea9fad5a7bd6217efa96f747cd8c6cf6c442aca050d4c72c42b9624\",\n        \"size_bytes\": 151,\n        \"sniffed_content_type\": \"application/json\",\n        \"declared_content_type\": \"application/json\",\n        \"structure\": {\n          \"kind\": \"json\",\n          \"top_level\": [\n            \"event\",\n            \"source\",\n            \"message\",\n            \"transport\"\n          ]\n        }\n      }\n    },\n    \"outputs\": {\n      \"preserve\": {\n        \"capability\": \"object.store\",\n        \"digest\": \"c63a61540ea9fad5a7bd6217efa96f747cd8c6cf6c442aca050d4c72c42b9624\",\n        \"size_bytes\": 151,\n        \"content_type\": \"application/json\"\n      },\n      \"inspect\": {\n        \"capability\": \"document.inspect\",\n        \"observation\": {\n          \"digest\": \"c63a61540ea9fad5a7bd6217efa96f747cd8c6cf6c442aca050d4c72c42b9624\",\n          \"size_bytes\": 151,\n          \"sniffed_content_type\": \"application/json\",\n          \"declared_content_type\": \"application/json\",\n          \"structure\": {\n            \"kind\": \"json\",\n            \"top_level\": [\n              \"event\",\n              \"source\",\n              \"message\",\n              \"transport\"\n            ]\n          }\n        }\n      }\n    }\n  }\n}"
+            }
+          ],
+          "structuredContent": {
+            "capability": "mcp.dispatch",
+            "tool": "invoke_service",
+            "result": {
+              "capability": "service.invoke",
+              "contract_id": "a5a2849b-f76f-44b3-845f-ab5bd980e98b",
+              "contract_sha256": "c2eece788d0cf50ff32876bd1747f9db7765fda1165f180f3ae6549eeff157ad",
+              "definition_sha256": "15b27ae3c4a42a5ef6487722e0412073e7f0303c91ecd751990fc5428513fd11",
+              "result": {
+                "capability": "document.inspect",
+                "observation": {
+                  "digest": "c63a61540ea9fad5a7bd6217efa96f747cd8c6cf6c442aca050d4c72c42b9624",
+                  "size_bytes": 151,
+                  "sniffed_content_type": "application/json",
+                  "declared_content_type": "application/json",
+                  "structure": {
+                    "kind": "json",
+                    "top_level": [
+                      "event",
+                      "source",
+                      "message",
+                      "transport"
+                    ]
+                  }
+                }
+              },
+              "outputs": {
+                "preserve": {
+                  "capability": "object.store",
+                  "digest": "c63a61540ea9fad5a7bd6217efa96f747cd8c6cf6c442aca050d4c72c42b9624",
+                  "size_bytes": 151,
+                  "content_type": "application/json"
+                },
+                "inspect": {
+                  "capability": "document.inspect",
+                  "observation": {
+                    "digest": "c63a61540ea9fad5a7bd6217efa96f747cd8c6cf6c442aca050d4c72c42b9624",
+                    "size_bytes": 151,
+                    "sniffed_content_type": "application/json",
+                    "declared_content_type": "application/json",
+                    "structure": {
+                      "kind": "json",
+                      "top_level": [
+                        "event",
+                        "source",
+                        "message",
+                        "transport"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "isError": false,
+          "_meta": {
+            "antenna/receipt_id": "rcp_01a0a4484d757761a0fc74ce52b57a53",
+            "antenna/correlation_id": "cor_01a0a4484d747721b7768c663ec00c44",
+            "io.modelcontextprotocol/serverInfo": {
+              "name": "antenna",
+              "version": "0.1.0"
+            }
+          },
+          "resultType": "complete"
+        }
+      },
+      "inspection": {
+        "jsonrpc": "2.0",
+        "id": 1,
+        "result": {
+          "content": [
+            {
+              "type": "text",
+              "text": "{\n  \"capability\": \"mcp.dispatch\",\n  \"tool\": \"invoke_service\",\n  \"result\": {\n    \"receipt_id\": \"rcp_01a0a4484d757761a0fc74ce52b57a53\",\n    \"status\": \"routed\",\n    \"runs\": [\n      {\n        \"id\": \"run_01a0a4484d777fb2adf984067f3e41e4\",\n        \"receipt_id\": \"rcp_01a0a4484d757761a0fc74ce52b57a53\",\n        \"capability\": \"mcp.dispatch\",\n        \"status\": \"completed\",\n        \"output\": \"{\\\"capability\\\":\\\"mcp.dispatch\\\",\\\"tool\\\":\\\"invoke_service\\\",\\\"result\\\":{\\\"capability\\\":\\\"service.invoke\\\",\\\"contract_id\\\":\\\"a5a2849b-f76f-44b3-845f-ab5bd980e98b\\\",\\\"contract_sha256\\\":\\\"c2eece788d0cf50ff32876bd1747f9db7765fda1165f180f3ae6549eeff157ad\\\",\\\"definition_sha256\\\":\\\"15b27ae3c4a42a5ef6487722e0412073e7f0303c91ecd751990fc5428513fd11\\\",\\\"result\\\":{\\\"capability\\\":\\\"document.inspect\\\",\\\"observation\\\":{\\\"digest\\\":\\\"c63a61540ea9fad5a7bd6217efa96f747cd8c6cf6c442aca050d4c72c42b9624\\\",\\\"size_bytes\\\":151,\\\"sniffed_content_type\\\":\\\"application/json\\\",\\\"declared_content_type\\\":\\\"application/json\\\",\\\"structure\\\":{\\\"kind\\\":\\\"json\\\",\\\"top_level\\\":[\\\"event\\\",\\\"source\\\",\\\"message\\\",\\\"transport\\\"]}}},\\\"outputs\\\":{\\\"preserve\\\":{\\\"capability\\\":\\\"object.store\\\",\\\"digest\\\":\\\"c63a61540ea9fad5a7bd6217efa96f747cd8c6cf6c442aca050d4c72c42b9624\\\",\\\"size_bytes\\\":151,\\\"content_type\\\":\\\"application/json\\\"},\\\"inspect\\\":{\\\"capability\\\":\\\"document.inspect\\\",\\\"observation\\\":{\\\"digest\\\":\\\"c63a61540ea9fad5a7bd6217efa96f747cd8c6cf6c442aca050d4c72c42b9624\\\",\\\"size_bytes\\\":151,\\\"sniffed_content_type\\\":\\\"application/json\\\",\\\"declared_content_type\\\":\\\"application/json\\\",\\\"structure\\\":{\\\"kind\\\":\\\"json\\\",\\\"top_level\\\":[\\\"event\\\",\\\"source\\\",\\\"message\\\",\\\"transport\\\"]}}}}}}\",\n        \"error\": null,\n        \"created_at\": \"2026-09-15T08:56:36.983530Z\",\n        \"completed_at\": \"2026-09-15T08:56:43.835592Z\"\n      }\n    ],\n    \"deliveries\": [\n      {\n        \"id\": \"dlv_01a0a448683b7da1a7a8739cc10f1830\",\n        \"receipt_id\": \"rcp_01a0a4484d757761a0fc74ce52b57a53\",\n        \"run_id\": \"run_01a0a4484d777fb2adf984067f3e41e4\",\n        \"correlation_id\": \"cor_01a0a4484d747721b7768c663ec00c44\",\n        \"destination\": \"return-path:mcp:cor_01a0a4484d747721b7768c663ec00c44\",\n        \"transport\": \"return-path\",\n        \"idempotency_key\": \"return:cor_01a0a4484d747721b7768c663ec00c44\",\n        \"content_type\": \"application/json\",\n        \"attempt\": 1,\n        \"max_attempts\": 5,\n        \"status\": \"completed\",\n        \"resumed_uncertain\": 0,\n        \"created_at\": \"2026-09-15T08:56:43.835337Z\",\n        \"completed_at\": \"2026-09-15T08:56:43.837704Z\",\n        \"last_error\": null,\n        \"authority\": \"{\\\"decision\\\":\\\"granted\\\",\\\"reason\\\":\\\"return path for an accepted receipt\\\"}\",\n        \"telemetry\": \"{\\\"trace_id\\\":\\\"5c6836339b364ef8b6bec30df9fe389d\\\",\\\"span_id\\\":\\\"b6027e302f9f46a0\\\",\\\"traceparent\\\":\\\"00-5c6836339b364ef8b6bec30df9fe389d-b6027e302f9f46a0-01\\\"}\"\n      }\n    ]\n  }\n}"
+            }
+          ],
+          "structuredContent": {
+            "capability": "mcp.dispatch",
+            "tool": "invoke_service",
+            "result": {
+              "receipt_id": "rcp_01a0a4484d757761a0fc74ce52b57a53",
+              "status": "routed",
+              "runs": [
+                {
+                  "id": "run_01a0a4484d777fb2adf984067f3e41e4",
+                  "receipt_id": "rcp_01a0a4484d757761a0fc74ce52b57a53",
+                  "capability": "mcp.dispatch",
+                  "status": "completed",
+                  "output": "{\"capability\":\"mcp.dispatch\",\"tool\":\"invoke_service\",\"result\":{\"capability\":\"service.invoke\",\"contract_id\":\"a5a2849b-f76f-44b3-845f-ab5bd980e98b\",\"contract_sha256\":\"c2eece788d0cf50ff32876bd1747f9db7765fda1165f180f3ae6549eeff157ad\",\"definition_sha256\":\"15b27ae3c4a42a5ef6487722e0412073e7f0303c91ecd751990fc5428513fd11\",\"result\":{\"capability\":\"document.inspect\",\"observation\":{\"digest\":\"c63a61540ea9fad5a7bd6217efa96f747cd8c6cf6c442aca050d4c72c42b9624\",\"size_bytes\":151,\"sniffed_content_type\":\"application/json\",\"declared_content_type\":\"application/json\",\"structure\":{\"kind\":\"json\",\"top_level\":[\"event\",\"source\",\"message\",\"transport\"]}}},\"outputs\":{\"preserve\":{\"capability\":\"object.store\",\"digest\":\"c63a61540ea9fad5a7bd6217efa96f747cd8c6cf6c442aca050d4c72c42b9624\",\"size_bytes\":151,\"content_type\":\"application/json\"},\"inspect\":{\"capability\":\"document.inspect\",\"observation\":{\"digest\":\"c63a61540ea9fad5a7bd6217efa96f747cd8c6cf6c442aca050d4c72c42b9624\",\"size_bytes\":151,\"sniffed_content_type\":\"application/json\",\"declared_content_type\":\"application/json\",\"structure\":{\"kind\":\"json\",\"top_level\":[\"event\",\"source\",\"message\",\"transport\"]}}}}}}",
+                  "error": null,
+                  "created_at": "2026-09-15T08:56:36.983530Z",
+                  "completed_at": "2026-09-15T08:56:43.835592Z"
+                }
+              ],
+              "deliveries": [
+                {
+                  "id": "dlv_01a0a448683b7da1a7a8739cc10f1830",
+                  "receipt_id": "rcp_01a0a4484d757761a0fc74ce52b57a53",
+                  "run_id": "run_01a0a4484d777fb2adf984067f3e41e4",
+                  "correlation_id": "cor_01a0a4484d747721b7768c663ec00c44",
+                  "destination": "return-path:mcp:cor_01a0a4484d747721b7768c663ec00c44",
+                  "transport": "return-path",
+                  "idempotency_key": "return:cor_01a0a4484d747721b7768c663ec00c44",
+                  "content_type": "application/json",
+                  "attempt": 1,
+                  "max_attempts": 5,
+                  "status": "completed",
+                  "resumed_uncertain": 0,
+                  "created_at": "2026-09-15T08:56:43.835337Z",
+                  "completed_at": "2026-09-15T08:56:43.837704Z",
+                  "last_error": null,
+                  "authority": "{\"decision\":\"granted\",\"reason\":\"return path for an accepted receipt\"}",
+                  "telemetry": "{\"trace_id\":\"5c6836339b364ef8b6bec30df9fe389d\",\"span_id\":\"b6027e302f9f46a0\",\"traceparent\":\"00-5c6836339b364ef8b6bec30df9fe389d-b6027e302f9f46a0-01\"}"
+                }
+              ]
+            }
+          },
+          "isError": false,
+          "_meta": {
+            "antenna/receipt_id": "rcp_01a0a44868847e02a46347535f754cfd",
+            "antenna/correlation_id": "cor_01a0a44868847e02a46347432bb5c073",
+            "io.modelcontextprotocol/serverInfo": {
+              "name": "antenna",
+              "version": "0.1.0"
+            }
+          },
+          "resultType": "complete"
+        }
+      }
+    }
+  ]
+}

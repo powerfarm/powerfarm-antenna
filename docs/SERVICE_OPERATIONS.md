@@ -26,7 +26,18 @@ continue as existing services.
 
 ## CLI
 
-On lab-8gb, the existing Powerfarm CLI has the additional `service` command:
+On this Mac and lab-8gb, the existing Powerfarm CLI has the additional `service`
+command. Invocation and result inspection are configured on both machines.
+Registry management uses the existing signed-in operator session on lab-8gb.
+
+Try the installed contract from this Mac:
+
+```sh
+~/.local/bin/pf service invoke powerfarm-cli.http \
+  --file /Users/ubl-ops/platform-four/antenna/evidence/services-20260915/input.json
+```
+
+On lab-8gb:
 
 ```sh
 ~/.local/bin/pf service list --json
@@ -46,7 +57,7 @@ its service contract, accept its hash for both parties, create a client contract
 and accept that exact hash for both parties. The CLI help contains each command.
 Client limits cannot exceed the parent contract. Changes require new versions and
 new acceptance. `service revoke NAME --sha256 HASH` ends derived authority.
-The initial contracts expire after 90 days; inspect their exact `valid_until`.
+The initial contracts expire on 2026-12-14; inspect their exact `valid_until`.
 
 ## External LLMs over MCP
 
